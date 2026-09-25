@@ -1,0 +1,1597 @@
+<title>ClosetUp Consignación</title>
+<meta name="description" content="Mockup navegable del sistema de consignación de ClosetUp: portal del vendedor y panel del equipo operativo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F8F3ED; --surface:#FFFDFA; --surface-2:#F1EAE0; --sand:#CEC4B1; --line:#E4DACB;
+  --ink:#141414; --ink-2:#5B5448; --ink-3:#8A8273;
+  --red:#C91F1F; --red-hover:#A91919; --on-red:#FFFFFF; --red-soft:#F8E1DC;
+  --wine:#922138; --wine-soft:#F3DEE2;
+  --olive:#69612B; --olive-soft:#E8E5CE;
+  --amber:#8C5E0C; --amber-soft:#F4E7C8;
+  --rail:#141414; --rail-ink:#F8F3ED; --rail-ink-2:#A39A8A; --rail-line:#2A2724;
+  --shadow:0 1px 0 rgba(20,20,20,.04), 0 18px 40px -24px rgba(60,40,20,.25);
+  --sans:"Jost","Futura","Century Gothic","Avenir Next",system-ui,sans-serif;
+  --mono:"DM Mono","SF Mono",ui-monospace,Menlo,monospace;
+  --curve:64px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#141414; --surface:#1D1B19; --surface-2:#25221F; --sand:#4B453C; --line:#322E29;
+    --ink:#F8F3ED; --ink-2:#CEC4B1; --ink-3:#978E7E;
+    --red:#E0403B; --red-hover:#EC5B55; --on-red:#FFFFFF; --red-soft:#3B1C1A;
+    --wine:#E07A8F; --wine-soft:#3A1D25;
+    --olive:#BDB36A; --olive-soft:#2B2918;
+    --amber:#E0B25C; --amber-soft:#342917;
+    --rail:#0B0B0B; --rail-ink:#F8F3ED; --rail-ink-2:#8F8778; --rail-line:#24211E;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 18px 40px -24px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#141414; --surface:#1D1B19; --surface-2:#25221F; --sand:#4B453C; --line:#322E29;
+  --ink:#F8F3ED; --ink-2:#CEC4B1; --ink-3:#978E7E;
+  --red:#E0403B; --red-hover:#EC5B55; --on-red:#FFFFFF; --red-soft:#3B1C1A;
+  --wine:#E07A8F; --wine-soft:#3A1D25;
+  --olive:#BDB36A; --olive-soft:#2B2918;
+  --amber:#E0B25C; --amber-soft:#342917;
+  --rail:#0B0B0B; --rail-ink:#F8F3ED; --rail-ink-2:#8F8778; --rail-line:#24211E;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 18px 40px -24px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;line-height:1.12;text-wrap:balance;font-weight:600;letter-spacing:-.01em}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:6px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:0}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)}
+.faint{color:var(--ink-3)}
+.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-3)}
+
+/* ---------- Logo (mask so it can take any brand color) ---------- */
+.logo{display:inline-block;aspect-ratio:777/291;height:30px;background:var(--red);
+  -webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
+:root{--logo:url("data:image/png;base64,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")}
+
+/* ---------- Prototype shell ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:18px;padding:12px 24px;flex-wrap:wrap}
+.topbar .tag{font-size:12px;color:var(--ink-3);border-left:1px solid var(--line);padding-left:14px}
+.side-switch{margin-left:auto;display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px}
+.side-switch button{border:0;background:transparent;padding:7px 14px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--ink-2)}
+.side-switch button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.shell{display:grid;grid-template-columns:268px minmax(0,1fr);gap:0;min-height:calc(100vh - 60px)}
+.rail{border-right:1px solid var(--line);padding:22px 14px 40px;position:sticky;top:60px;align-self:start;max-height:calc(100vh - 60px);overflow:auto}
+.rail h5{margin:18px 10px 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.rail h5:first-child{margin-top:0}
+.rail a{display:grid;grid-template-columns:26px 1fr;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;color:var(--ink-2);text-decoration:none;font-size:14px;line-height:1.3}
+.rail a .n{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.rail a:hover{background:var(--surface-2);color:var(--ink)}
+.rail a[aria-current="page"]{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);font-weight:500}
+.rail a[aria-current="page"] .n{color:var(--red)}
+.rail .who{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+.stage{padding:28px 32px 80px;min-width:0}
+.screen{display:none;max-width:1180px;margin:0 auto}
+.screen.on{display:block;animation:rise .45s cubic-bezier(.16,1,.3,1)}
+@keyframes rise{from{opacity:.001;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen.on{animation:none}}
+
+.caption{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 24px;align-items:end;margin-bottom:18px}
+.caption h2{font-size:26px;font-weight:600}
+.caption p{color:var(--ink-2);max-width:68ch;margin-top:6px}
+.caption .meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:500;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);white-space:nowrap}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.cv{color:var(--red);background:var(--red-soft);border-color:transparent}
+.chip.co{color:var(--wine);background:var(--wine-soft);border-color:transparent}
+.flow-next{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.flow-next .hint{font-size:13px;color:var(--ink-3)}
+
+/* ---------- Device frame ---------- */
+.frame{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.frame-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.frame-bar i{width:10px;height:10px;border-radius:50%;background:var(--sand);display:block}
+.frame-bar .url{margin-left:10px;flex:1;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:3px 12px;font-size:12px;color:var(--ink-3);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- Seller portal chrome ---------- */
+.pnav{display:flex;align-items:center;gap:22px;padding:16px 28px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.pnav .logo{height:26px}
+.pnav nav{display:flex;gap:18px;font-size:14px;color:var(--ink-2);flex-wrap:wrap}
+.pnav nav span[aria-current]{color:var(--ink);font-weight:500;box-shadow:inset 0 -2px 0 var(--red);padding-bottom:3px}
+.pnav .me{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:600;background:var(--sand);color:var(--ink)}
+.pbody{padding:32px 28px 40px}
+
+/* ---------- Ops chrome ---------- */
+.ops{display:grid;grid-template-columns:210px minmax(0,1fr);min-height:620px}
+.ops-side{background:var(--rail);color:var(--rail-ink);padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+.ops-side .brand{display:flex;align-items:center;gap:8px;padding:4px 8px 16px;border-bottom:1px solid var(--rail-line);margin-bottom:10px}
+.ops-side .brand .logo{height:22px;background:var(--rail-ink)}
+.ops-side .brand small{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rail-ink-2)}
+.ops-side span{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:8px;font-size:13.5px;color:var(--rail-ink-2)}
+.ops-side span b{font-family:var(--mono);font-weight:400;font-size:11px;background:var(--rail-line);color:var(--rail-ink);padding:1px 7px;border-radius:999px}
+.ops-side span[aria-current]{background:var(--rail-line);color:var(--rail-ink)}
+.ops-side span[aria-current] b{background:var(--red);color:#fff}
+.ops-side .foot{margin-top:auto;padding:12px 10px 0;border-top:1px solid var(--rail-line);font-size:12px;color:var(--rail-ink-2)}
+.ops-main{padding:22px 26px 30px;min-width:0;background:var(--bg)}
+.ops-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.ops-head h3{font-size:21px}
+.ops-head .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:13.5px;color:var(--ink-3);min-width:220px}
+
+/* ---------- Components ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:11px 18px;font-weight:500;font-size:14.5px;border:1px solid transparent;transition:transform .15s,background .15s;text-decoration:none;white-space:nowrap}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--red);color:var(--on-red)}
+.btn.primary:hover{background:var(--red-hover)}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.btn.ghost{background:transparent;border-color:var(--sand);color:var(--ink)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.olive{background:var(--olive);color:#fff}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:9px}
+.btn svg{width:16px;height:16px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.pad{padding:22px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
+
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:13px;font-weight:500;color:var(--ink-2)}
+.field .help{font-size:12px;color:var(--ink-3)}
+.input{background:var(--surface);border:1px solid var(--sand);border-radius:10px;padding:10px 12px;font-size:14.5px;color:var(--ink);width:100%;min-width:0}
+.input.filled{background:var(--surface)}
+.input.select{display:flex;justify-content:space-between;align-items:center}
+.input.select::after{content:"";width:8px;height:8px;border-right:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);transform:rotate(45deg) translateY(-3px);flex:none;margin-left:10px}
+.input.error{border-color:var(--red)}
+.err{font-size:12px;color:var(--red)}
+textarea.input{min-height:84px;resize:none}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.form-grid .full{grid-column:1/-1}
+fieldset{border:0;margin:0;padding:0}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
+.section-title h4{font-size:16px}
+
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:9px;font-size:13.5px;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{border:1px solid var(--sand);background:var(--surface);border-radius:999px;padding:6px 13px;font-size:13.5px;color:var(--ink-2)}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+.switch{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.switch .track{width:40px;height:23px;border-radius:999px;background:var(--sand);position:relative;flex:none;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.switch[aria-checked="true"] .track{background:var(--olive)}
+.switch[aria-checked="true"] .track::after{transform:translateX(17px)}
+
+.status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:500;white-space:nowrap}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.s-new{background:var(--surface-2);color:var(--ink-2)}
+.s-wait{background:var(--amber-soft);color:var(--amber)}
+.s-ok{background:var(--olive-soft);color:var(--olive)}
+.s-no{background:var(--red-soft);color:var(--red)}
+.s-wine{background:var(--wine-soft);color:var(--wine)}
+.s-ink{background:var(--ink);color:var(--bg)}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+th{text-align:left;font-weight:500;color:var(--ink-3);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tr.sel td{background:color-mix(in srgb,var(--red) 6%,transparent)}
+td .sub{display:block;font-size:12px;color:var(--ink-3)}
+.prodcell{display:flex;align-items:center;gap:12px}
+
+/* Garment thumbnails, drawn so the mockup has no external images */
+.thumb{--c:#B98A5A;width:44px;height:52px;border-radius:10px;background:
+  radial-gradient(120% 90% at 30% 10%,rgba(255,255,255,.22),transparent 60%),var(--c);
+  display:grid;place-items:center;flex:none;position:relative;overflow:hidden}
+.thumb svg{width:70%;height:70%;fill:rgba(255,253,250,.9)}
+.thumb.lg{width:100%;height:auto;aspect-ratio:4/5;border-radius:16px}
+.thumb.lg svg{width:46%;height:46%}
+.thumb.md{width:64px;height:76px;border-radius:12px}
+.thumb.add{background:var(--surface-2);border:1.5px dashed var(--sand);color:var(--ink-3);font-size:12px;text-align:center;line-height:1.3;padding:6px}
+.c-camel{--c:#B08355}.c-denim{--c:#3E5670}.c-olive{--c:#69612B}.c-ink{--c:#2A2826}.c-wine{--c:#922138}.c-sand{--c:#A89C84}.c-cream{--c:#D9CBB3}.c-red{--c:#C91F1F}.c-rose{--c:#C99094}
+
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.kpi .v{font-size:28px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:4px}
+.kpi .d{font-size:12.5px;color:var(--ink-3)}
+.kpi .d b{font-weight:500;color:var(--olive)}
+
+.note{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:var(--surface-2);font-size:13.5px;color:var(--ink-2)}
+.note svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--ink-3)}
+.note.warn{background:var(--amber-soft);color:var(--amber)}
+.note.warn svg{color:var(--amber)}
+.note.good{background:var(--olive-soft);color:var(--olive)}
+.note.good svg{color:var(--olive)}
+
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14px}
+.kv dt{color:var(--ink-3)}
+.kv dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.divider{height:1px;background:var(--line);margin:4px 0}
+
+.check{display:flex;align-items:flex-start;gap:10px;font-size:14px;cursor:pointer}
+.check .box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--sand);flex:none;display:grid;place-items:center;margin-top:1px;background:var(--surface)}
+.check[aria-checked="true"] .box{background:var(--olive);border-color:var(--olive)}
+.check[aria-checked="true"] .box::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+
+/* Brand curve motif, taken from the palette sheet's rounded corners */
+.curve{border-radius:22px 22px var(--curve) 22px}
+.curve-l{border-radius:22px 22px 22px var(--curve)}
+
+/* ---------- Landing ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:stretch}
+.hero h1{font-size:clamp(34px,4.6vw,56px);font-weight:600;letter-spacing:-.03em;line-height:1.02}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero .lede{font-size:17px;color:var(--ink-2);max-width:46ch;margin-top:16px}
+.hero-art{position:relative;background:var(--sand);min-height:380px;overflow:hidden}
+.hero-art .t1,.hero-art .t2,.hero-art .t3{position:absolute;box-shadow:0 20px 40px -20px rgba(20,20,20,.45)}
+.hero-art .t1{width:44%;left:8%;top:10%;transform:rotate(-5deg)}
+.hero-art .t2{width:40%;right:8%;top:22%;transform:rotate(4deg)}
+.hero-art .t3{width:34%;left:34%;bottom:-6%;transform:rotate(-1deg)}
+.price-tag{position:absolute;background:var(--surface);border-radius:12px;padding:8px 12px;font-size:12.5px;box-shadow:var(--shadow);line-height:1.3}
+.price-tag b{display:block;font-family:var(--mono);font-weight:500;font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line);margin-top:34px}
+.steps div{padding:18px 18px 0 0}
+.steps .k{font-family:var(--mono);font-size:12px;color:var(--red)}
+.steps h4{font-size:16px;margin:6px 0 4px}
+.steps p{font-size:13.5px;color:var(--ink-2)}
+
+/* ---------- Choice cards ---------- */
+.choice{display:flex;flex-direction:column;gap:12px;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:22px;transition:border-color .2s,transform .2s}
+.choice:hover{transform:translateY(-2px)}
+.choice[aria-pressed="true"]{border-color:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
+.choice .ic{width:44px;height:44px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center}
+.choice .ic svg{width:22px;height:22px;color:var(--ink)}
+.choice h4{font-size:18px}
+.choice ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:13.5px}
+
+/* ---------- Progress ---------- */
+.progress{display:flex;gap:6px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
+.progress span{font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
+.progress span b{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-family:var(--mono);font-weight:500;background:var(--surface-2);border:1px solid var(--line)}
+.progress span.done b{background:var(--olive);color:#fff;border-color:var(--olive)}
+.progress span.now{color:var(--ink);font-weight:500}
+.progress span.now b{background:var(--red);color:#fff;border-color:var(--red)}
+.progress i{width:26px;height:1px;background:var(--sand)}
+
+/* ---------- Timeline (product tracking) ---------- */
+.track{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;position:relative;margin:6px 0 2px}
+.track div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;font-size:11.5px;color:var(--ink-3);position:relative}
+.track div::before{content:"";position:absolute;top:7px;left:-50%;width:100%;height:2px;background:var(--line);z-index:0}
+.track div:first-child::before{display:none}
+.track div i{width:16px;height:16px;border-radius:50%;background:var(--surface);border:2px solid var(--sand);position:relative;z-index:1}
+.track div.done{color:var(--ink-2)}
+.track div.done i{background:var(--olive);border-color:var(--olive)}
+.track div.done::before{background:var(--olive)}
+.track div.now{color:var(--ink);font-weight:500}
+.track div.now i{background:var(--red);border-color:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
+.track div.now::before{background:var(--olive)}
+
+/* ---------- Flow overview ---------- */
+.lanes{display:grid;grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr);gap:0 18px}
+.lane-h{padding:12px 0 14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;border-bottom:1px solid var(--line)}
+.lane-h.c{justify-content:center;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.lane-h .sw{width:12px;height:12px;border-radius:4px}
+.lcell{padding:14px 0;border-bottom:1px dashed var(--line);min-height:84px;display:flex;align-items:center}
+.lcell.mid{justify-content:center;position:relative}
+.lcell.mid::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--line)}
+.lcell.mid .status{position:relative;z-index:1;background:var(--surface);border:1px solid var(--line)}
+.lstep{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;transition:transform .2s,border-color .2s;color:inherit}
+.lstep:hover{transform:translateY(-2px);border-color:var(--sand)}
+.lstep .k{font-family:var(--mono);font-size:12px;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;color:#fff}
+.lstep.v .k{background:var(--red)}
+.lstep.o .k{background:var(--wine)}
+.lstep h4{font-size:14.5px;font-weight:600}
+.lstep p{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.lstep .go{margin-left:auto;align-self:center;color:var(--ink-3);font-size:18px;line-height:1}
+
+/* ---------- Signature ---------- */
+.sig{height:130px;border:1.5px dashed var(--sand);border-radius:14px;background:var(--surface-2);position:relative;display:grid;place-items:center}
+.sig svg{width:62%;height:70%;color:var(--ink)}
+.sig small{position:absolute;left:14px;bottom:10px;font-size:11.5px;color:var(--ink-3)}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px 30px;max-height:430px;overflow:auto;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.doc h4{color:var(--ink);font-size:15px;margin:16px 0 6px}
+.doc h4:first-child{margin-top:0}
+.doc strong{color:var(--ink);font-weight:500}
+
+/* ---------- Calendar / slots ---------- */
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.day{border:1px solid var(--sand);border-radius:12px;padding:10px 6px;text-align:center;background:var(--surface);font-size:12px;color:var(--ink-3)}
+.day b{display:block;font-size:20px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--sand)}
+.day[aria-pressed="true"] b{color:var(--bg)}
+.day[disabled]{opacity:.45;cursor:not-allowed}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+
+/* ---------- Route ---------- */
+.route{position:relative;min-height:300px;border-radius:14px;overflow:hidden;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/34px 34px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/34px 34px,var(--surface-2)}
+.route svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:2px}
+.pin b{background:var(--wine);color:#fff;font-family:var(--mono);font-size:11px;font-weight:500;width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center}
+.pin b span{transform:rotate(45deg)}
+.pin.hub b{background:var(--ink);width:30px;height:30px}
+.pin small{background:var(--surface);border-radius:6px;padding:1px 6px;font-size:10.5px;color:var(--ink-2);white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* ---------- Pricing ---------- */
+.range{position:relative;height:56px;margin:8px 4px 4px}
+.range .bar{position:absolute;left:0;right:0;top:24px;height:8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.range .band{position:absolute;top:24px;height:8px;border-radius:999px;background:var(--olive-soft);border:1px solid var(--olive)}
+.range .mk{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;white-space:nowrap}
+.range .mk i{width:2px;height:22px;background:currentColor;display:block;margin-top:2px}
+.range .mk.ask{color:var(--ink-3);transform:translateX(-1px);align-items:flex-start}
+.range .mk.sug{color:var(--red);font-weight:600;transform:translateX(calc(-100% + 1px));align-items:flex-end}
+.range .ticks{position:absolute;left:0;right:0;top:38px;display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-3);font-family:var(--mono)}
+.comp{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.comp:last-child{border-bottom:0}
+.bigprice{font-size:34px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+
+/* QC */
+.qc{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.qc:last-child{border-bottom:0}
+.tri{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.tri button{border:0;background:var(--surface);padding:5px 10px;font-size:12px;color:var(--ink-3);border-right:1px solid var(--line)}
+.tri button:last-child{border-right:0}
+.tri button[aria-pressed="true"].ok{background:var(--olive-soft);color:var(--olive);font-weight:500}
+.tri button[aria-pressed="true"].obs{background:var(--amber-soft);color:var(--amber);font-weight:500}
+.tri button[aria-pressed="true"].bad{background:var(--red-soft);color:var(--red);font-weight:500}
+.grade{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.grade button{border:1px solid var(--sand);background:var(--surface);border-radius:12px;padding:10px 8px;text-align:left;font-size:12px;color:var(--ink-3)}
+.grade button b{display:block;font-size:15px;color:var(--ink);font-weight:600}
+.grade button[aria-pressed="true"]{border-color:var(--olive);box-shadow:0 0 0 3px var(--olive-soft)}
+
+/* Pipeline */
+.pipe{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.pipe div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.pipe .lbl{font-size:12px;color:var(--ink-3);line-height:1.25;min-height:30px}
+.pipe .v{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.pipe .bar{height:4px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.pipe .bar i{display:block;height:100%;background:var(--wine);border-radius:999px}
+.pipe div.hot{border-color:var(--red)}
+.pipe div.hot .bar i{background:var(--red)}
+.task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.task:last-child{border-bottom:0}
+.task .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface-2)}
+.task .ic svg{width:17px;height:17px}
+
+/* spark */
+.spark{width:100%;height:120px;display:block}
+.spark .grid{stroke:var(--line);stroke-width:1}
+.spark .area{fill:var(--red-soft)}
+.spark .line{fill:none;stroke:var(--red);stroke-width:2}
+.spark .end{fill:var(--red)}
+.spark text{fill:var(--ink-3);font-size:10px;font-family:var(--mono)}
+
+/* drawer */
+.drawer{border-left:1px solid var(--line);padding-left:20px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pipe{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .split{grid-template-columns:1fr}
+  .drawer{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:20px}
+}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:relative;top:0;max-height:none;border-right:0;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:10px 16px}
+  .rail h5{display:none}
+  .rail a{flex:none;grid-template-columns:auto auto;background:var(--surface-2);white-space:nowrap;border-radius:999px;padding:7px 12px}
+  .stage{padding:20px 16px 60px}
+  .ops{grid-template-columns:1fr}
+  .ops-side{flex-direction:row;overflow-x:auto;padding:10px}
+  .ops-side .brand{border:0;margin:0;padding:4px 8px}
+  .ops-side .foot{display:none}
+  .ops-side span{flex:none}
+  .hero{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lanes{grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);gap:0 8px}
+}
+@media (max-width:640px){
+  .topbar-in{padding:10px 16px;gap:10px}
+  .topbar .tag{display:none}
+  .caption{grid-template-columns:1fr}
+  .caption .meta{justify-content:flex-start}
+  .grid-2,.grid-3,.form-grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .pipe{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pbody{padding:22px 16px 28px}
+  .pnav{padding:12px 16px}
+  .pnav nav{display:none}
+  .ops-main{padding:16px}
+  .track{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:14px}
+  .track div:nth-child(5)::before{display:none}
+  .days{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grade{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:1fr}
+  .lanes{display:block}
+  .lane-h,.lcell.mid{display:none}
+  .lcell{min-height:0;border:0;padding:5px 0}
+  .lcell:empty{display:none}
+  .doc{padding:18px}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="g-jacket" viewBox="0 0 64 64"><path d="M23 7l9 7 9-7 13 8 5 26-8 2-3-12v29H18V31l-3 12-8-2 5-26z"/></symbol>
+  <symbol id="g-pants" viewBox="0 0 64 64"><path d="M18 6h28l5 52H38.5L32 24l-6.5 34H13z"/></symbol>
+  <symbol id="g-dress" viewBox="0 0 64 64"><path d="M25 5h4l3 5 3-5h4l-1 13 13 40H11l13-40z"/></symbol>
+  <symbol id="g-bag" viewBox="0 0 64 64"><path d="M22 24c0-14 20-14 20 0h-3.5c0-9.5-13-9.5-13 0z"/><path d="M11 24h42l-4 34H15z"/></symbol>
+  <symbol id="g-top" viewBox="0 0 64 64"><path d="M20 8l7 4h10l7-4 14 12-8 10-4-4v32H18V26l-4 4-8-10z"/></symbol>
+  <symbol id="g-shoe" viewBox="0 0 64 64"><path d="M8 36c0-6 2-14 6-18h10c1 6 6 10 14 12l14 4c4 1 6 4 6 8v4H8z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></g></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v2a3 3 0 01-5.3 1.9A3 3 0 0112 14a3 3 0 01-2.7-1.1A3 3 0 014 11z"/><path d="M5.5 13.5V20h13v-6.5M10 20v-4h4v4"/></g></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></g></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></g></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.4"/></g></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20l1-5L16 4l4 4L9 19z"/><path d="M13.5 6.5l4 4"/></g></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5L12 12l9-4.5M12 12v9"/></g></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></g></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 16V4M7 9l5-5 5 5M4 16v4h16v-4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></g></symbol>
+  <symbol id="i-sign" viewBox="0 0 200 60"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M8 42c10-22 18-30 22-26 5 5-10 30-4 32 6 2 14-26 20-24 5 2-4 20 2 21 6 1 10-16 16-15 5 1 0 14 6 14 7 0 12-20 20-18 6 2-3 16 4 17 9 1 16-14 24-12 5 1 2 9 8 9 7 0 16-8 26-8M40 50c30-4 80-6 130-4"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="logo" role="img" aria-label="ClosetUp"></span>
+    <span class="tag">Mockup del sistema de consignación · no funcional</span>
+    <div class="side-switch" role="group" aria-label="Ver pantallas de">
+      <button type="button" data-side="todo" aria-pressed="true">Todo el flujo</button>
+      <button type="button" data-side="vendedor" aria-pressed="false">Vendedor</button>
+      <button type="button" data-side="ops" aria-pressed="false">Equipo ClosetUp</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Pantallas">
+    <h5 data-grp="todo">Mapa</h5>
+    <a href="#flujo" data-grp="todo"><span class="n">00</span><span>Flujo completo</span></a>
+    <h5 data-grp="vendedor"><span class="who" style="background:var(--red)"></span>Portal del vendedor</h5>
+    <a href="#vende" data-grp="vendedor"><span class="n">V1</span><span>Vende con ClosetUp</span></a>
+    <a href="#tipo" data-grp="vendedor"><span class="n">V2</span><span>Tipo de cuenta</span></a>
+    <a href="#datos-persona" data-grp="vendedor"><span class="n">V3</span><span>Datos · persona natural</span></a>
+    <a href="#datos-marca" data-grp="vendedor"><span class="n">V4</span><span>Datos · marca</span></a>
+    <a href="#postular" data-grp="vendedor"><span class="n">V5</span><span>Postular producto</span></a>
+    <a href="#mis-productos" data-grp="vendedor"><span class="n">V6</span><span>Mis productos</span></a>
+    <a href="#recoleccion" data-grp="vendedor"><span class="n">V7</span><span>Confirmar recolección</span></a>
+    <a href="#oferta" data-grp="vendedor"><span class="n">V8</span><span>Contraoferta de precio</span></a>
+    <a href="#contrato" data-grp="vendedor"><span class="n">V9</span><span>Firmar contrato</span></a>
+    <a href="#pagos" data-grp="vendedor"><span class="n">V10</span><span>Ventas y pagos</span></a>
+    <h5 data-grp="ops"><span class="who" style="background:var(--wine)"></span>Equipo ClosetUp</h5>
+    <a href="#resumen" data-grp="ops"><span class="n">E1</span><span>Resumen operativo</span></a>
+    <a href="#postulaciones" data-grp="ops"><span class="n">E2</span><span>Aprobar postulaciones</span></a>
+    <a href="#recolecciones" data-grp="ops"><span class="n">E3</span><span>Agendar recolecciones</span></a>
+    <a href="#hub" data-grp="ops"><span class="n">E4</span><span>Recepción en hub</span></a>
+    <a href="#pricing" data-grp="ops"><span class="n">E5</span><span>Pricing y contraoferta</span></a>
+    <a href="#contratos" data-grp="ops"><span class="n">E6</span><span>Contratos</span></a>
+    <a href="#vendedores" data-grp="ops"><span class="n">E7</span><span>Ficha del vendedor</span></a>
+  </nav>
+
+  <main class="stage" id="stage">
+
+<!-- ===================================================== 00 FLUJO -->
+<section class="screen" id="flujo" data-grp="todo" aria-labelledby="h-flujo">
+  <div class="caption">
+    <div>
+      <div class="eyebrow">Mapa del sistema</div>
+      <h2 id="h-flujo">De la postulación al pago</h2>
+      <p>Cada fila es un paso del proceso de consignación. A la izquierda lo que hace el vendedor, a la derecha lo que hace el equipo ClosetUp y al centro el estado que ve el producto. Toca cualquier paso para abrir su pantalla.</p>
+    </div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+
+  <div class="card pad">
+    <div class="lanes">
+      <div class="lane-h"><span class="sw" style="background:var(--red)"></span>Vendedor · persona o marca</div>
+      <div class="lane-h c">Estado del producto</div>
+      <div class="lane-h"><span class="sw" style="background:var(--wine)"></span>Equipo ClosetUp</div>
+
+      <div class="lcell"><button class="lstep v" data-go="tipo"><span class="k">1</span><span><h4>Se registra</h4><p>Persona natural o marca. Datos personales o de empresa y cuenta bancaria.</p></span><span class="go">›</span></button></div>
+      <div class="lcell mid"><span class="status s-new">Cuenta creada</span></div>
+      <div class="lcell"></div>
+
+      <div class="lcell"><button class="lstep v" data-go="postular"><span class="k">2</span><span><h4>Postula productos</h4><p>Fotos, categoría, marca, talla, color, estado, % de uso y valor que desea recibir.</p></span><span class="go">›</span></button></div>
+      <div class="lcell mid"><span class="status s-wait">Postulado</span></div>
+      <div class="lcell"></div>
+
+      <div class="lcell"></div>
+      <div class="lcell mid"><span class="status s-ok">Aprobado</span></div>
+      <div class="lcell"><button class="lstep o" data-go="postulaciones"><span class="k">3</span><span><h4>Aprueba lo apto para venta</h4><p>Revisa cada producto y marca cuáles entran y cuáles no, con motivo.</p></span><span class="go">›</span></button></div>
+
+      <div class="lcell"><button class="lstep v" data-go="recoleccion"><span class="k">5</span><span><h4>Confirma la recolección</h4><p>Recibe la notificación, elige día y franja y confirma dirección.</p></span><span class="go">›</span></button></div>
+      <div class="lcell mid"><span class="status s-wine">Recolección agendada</span></div>
+      <div class="lcell"><button class="lstep o" data-go="recolecciones"><span class="k">4</span><span><h4>Agenda la recolección</h4><p>Asigna ruta y mensajero y envía la notificación al vendedor.</p></span><span class="go">›</span></button></div>
+
+      <div class="lcell"></div>
+      <div class="lcell mid"><span class="status s-wait">En revisión en hub</span></div>
+      <div class="lcell"><button class="lstep o" data-go="hub"><span class="k">6</span><span><h4>Recibe y revisa en el hub</h4><p>Control de calidad prenda por prenda: estado, fallas y fotos reales.</p></span><span class="go">›</span></button></div>
+
+      <div class="lcell"></div>
+      <div class="lcell mid"><span class="status s-wine">Contraoferta enviada</span></div>
+      <div class="lcell"><button class="lstep o" data-go="pricing"><span class="k">7</span><span><h4>Propone el precio</h4><p>La herramienta de pricing sugiere el valor y el equipo envía la contraoferta.</p></span><span class="go">›</span></button></div>
+
+      <div class="lcell"><button class="lstep v" data-go="oferta"><span class="k">8</span><span><h4>Acepta o negocia</h4><p>Ve cuánto recibe por cada prenda y acepta, contrapropone o pide devolución.</p></span><span class="go">›</span></button></div>
+      <div class="lcell mid"><span class="status s-ok">Precio acordado</span></div>
+      <div class="lcell"></div>
+
+      <div class="lcell"><button class="lstep v" data-go="contrato"><span class="k">9</span><span><h4>Firma el contrato</h4><p>Contrato de consignación con comisión y condiciones, firmado en línea.</p></span><span class="go">›</span></button></div>
+      <div class="lcell mid"><span class="status s-ok">Contrato firmado</span></div>
+      <div class="lcell"><button class="lstep o" data-go="contratos"><span class="k">10</span><span><h4>Verifica y publica</h4><p>Revisa la firma y publica los productos en closetup.com.</p></span><span class="go">›</span></button></div>
+
+      <div class="lcell"><button class="lstep v" data-go="pagos"><span class="k">11</span><span><h4>Recibe su dinero</h4><p>Sigue sus ventas y recibe los pagos en su cuenta bancaria.</p></span><span class="go">›</span></button></div>
+      <div class="lcell mid"><span class="status s-ok">Vendido · pagado</span></div>
+      <div class="lcell"><button class="lstep o" data-go="vendedores"><span class="k">12</span><span><h4>Liquida y paga</h4><p>Calcula lo que corresponde al vendedor y, si es marca que factura, pide la factura.</p></span><span class="go">›</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== V1 VENDE -->
+<section class="screen" id="vende" data-grp="vendedor" aria-labelledby="h-vende">
+  <div class="caption">
+    <div><div class="eyebrow">V1 · Portal del vendedor</div><h2 id="h-vende">Vende con ClosetUp</h2>
+      <p>Punto de entrada desde closetup.com. Explica el modelo de consignación en cuatro pasos y lleva al registro.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende</span></div>
+    <div class="pnav"><span class="logo" role="img" aria-label="ClosetUp"></span>
+      <nav><span>Mujer</span><span>Hombre</span><span>Marcas locales</span><span aria-current="page">Vende con nosotros</span></nav>
+      <div class="me"><button class="btn ghost sm" data-go="tipo">Ingresar</button></div></div>
+    <div class="pbody">
+      <div class="hero">
+        <div style="display:flex;flex-direction:column;justify-content:center">
+          <div class="eyebrow" style="color:var(--olive)">Consignación · personas y marcas</div>
+          <h1 style="margin-top:12px">Lo que ya no usas, <em>alguien lo está buscando</em>.</h1>
+          <p class="lede">Postula tus prendas, nosotros las recogemos, las revisamos, les ponemos precio y las vendemos. Tú recibes el dinero en tu cuenta.</p>
+          <div class="row" style="margin-top:24px">
+            <button class="btn primary" data-go="tipo">Quiero vender <svg><use href="#i-arrow"/></svg></button>
+            <button class="btn ghost">Ver cómo funciona</button>
+          </div>
+          <p class="faint" style="font-size:13px;margin-top:14px">Recolección sin costo en Bogotá, Medellín y Cali.</p>
+        </div>
+        <div class="hero-art curve">
+          <div class="thumb lg c-camel t1"><svg><use href="#g-jacket"/></svg></div>
+          <div class="thumb lg c-wine t2"><svg><use href="#g-dress"/></svg></div>
+          <div class="thumb lg c-olive t3"><svg><use href="#g-bag"/></svg></div>
+          <div class="price-tag" style="left:6%;bottom:18%">Blazer Zara · talla M<b>Recibes $96.000</b></div>
+          <div class="price-tag" style="right:6%;top:8%">Vendido en 6 días</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div><span class="k">01</span><h4>Postula</h4><p>Sube fotos y datos de cada prenda y dinos cuánto quieres recibir.</p></div>
+        <div><span class="k">02</span><h4>Recogemos</h4><p>Aprobamos lo que entra y pasamos por tu casa o tienda.</p></div>
+        <div><span class="k">03</span><h4>Revisamos y acordamos precio</h4><p>En nuestro hub revisamos cada prenda y te proponemos un valor.</p></div>
+        <div><span class="k">04</span><h4>Vendemos y te pagamos</h4><p>Firmas el contrato, publicamos y te transferimos cada venta.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: elegir tipo de cuenta</span><button class="btn dark sm" data-go="tipo">Ir a V2 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V2 TIPO -->
+<section class="screen" id="tipo" data-grp="vendedor" aria-labelledby="h-tipo">
+  <div class="caption">
+    <div><div class="eyebrow">V2 · Registro</div><h2 id="h-tipo">¿Cómo vas a vender?</h2>
+      <p>El tipo de cuenta define qué datos pedimos. Persona natural pide cédula y cuenta bancaria. Marca pide NIT, RUT y, si factura, los datos de su equipo contable.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/registro</span></div>
+    <div class="pbody" style="max-width:820px;margin:0 auto">
+      <div class="progress">
+        <span class="now"><b>1</b>Tipo de cuenta</span><i></i><span><b>2</b>Tus datos</span><i></i><span><b>3</b>Cuenta bancaria</span><i></i><span><b>4</b>Primer producto</span>
+      </div>
+      <h3 style="font-size:28px;letter-spacing:-.02em">Cuéntanos quién vende</h3>
+      <p class="muted" style="margin-top:6px">Puedes cambiarlo después hablando con nuestro equipo.</p>
+      <div class="grid-2" style="margin-top:22px" data-single>
+        <button class="choice" aria-pressed="true" data-go-on="datos-persona">
+          <span class="ic"><svg><use href="#i-user"/></svg></span>
+          <h4>Persona natural</h4>
+          <p class="muted" style="font-size:14px">Vendes prendas usadas de tu clóset.</p>
+          <ul><li>Nombre y cédula</li><li>Dirección de recolección</li><li>Cuenta bancaria a tu nombre</li></ul>
+        </button>
+        <button class="choice" aria-pressed="false" data-go-on="datos-marca">
+          <span class="ic"><svg><use href="#i-store"/></svg></span>
+          <h4>Marca o empresa</h4>
+          <p class="muted" style="font-size:14px">Vendes prendas nuevas, sobrestock o colecciones pasadas.</p>
+          <ul><li>Razón social, NIT y RUT</li><li>Representante legal</li><li>Datos de facturación y contabilidad</li></ul>
+        </button>
+      </div>
+      <div class="row" style="justify-content:space-between;margin-top:26px">
+        <span class="faint" style="font-size:13px">¿Ya tienes cuenta? <u>Ingresa</u></span>
+        <button class="btn primary" id="tipo-next" data-go="datos-persona">Continuar <svg><use href="#i-arrow"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Cada opción abre su propio formulario</span>
+    <div class="row"><button class="btn ghost sm" data-go="datos-persona">V3 Persona natural</button><button class="btn dark sm" data-go="datos-marca">V4 Marca</button></div></div>
+</section>
+
+<!-- ===================================================== V3 PERSONA -->
+<section class="screen" id="datos-persona" data-grp="vendedor" aria-labelledby="h-dp">
+  <div class="caption">
+    <div><div class="eyebrow">V3 · Registro persona natural</div><h2 id="h-dp">Tus datos y dónde recibes el dinero</h2>
+      <p>Datos personales para el contrato, dirección para la recolección y cuenta bancaria para los pagos. Se muestra un error en línea como ejemplo de validación.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/registro/datos</span></div>
+    <div class="pbody">
+      <div class="progress">
+        <span class="done"><b>✓</b>Tipo de cuenta</span><i></i><span class="now"><b>2</b>Tus datos</span><i></i><span class="now"><b>3</b>Cuenta bancaria</span><i></i><span><b>4</b>Primer producto</span>
+      </div>
+      <div class="split">
+        <div class="stack" style="gap:22px">
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Datos personales</h4><span class="faint" style="font-size:12px">Como aparecen en tu cédula</span></div>
+            <div class="form-grid">
+              <div class="field"><label for="p-nom">Nombres</label><input class="input" id="p-nom" value="Valentina"></div>
+              <div class="field"><label for="p-ape">Apellidos</label><input class="input" id="p-ape" value="Ospina Restrepo"></div>
+              <div class="field"><label for="p-tdoc">Tipo de documento</label><div class="input select" id="p-tdoc">Cédula de ciudadanía</div></div>
+              <div class="field"><label for="p-doc">Número de documento</label><input class="input mono" id="p-doc" value="1.020.458.713"></div>
+              <div class="field"><label for="p-mail">Correo</label><input class="input" id="p-mail" value="valentina.ospina@gmail.com"></div>
+              <div class="field"><label for="p-cel">Celular</label><input class="input mono error" id="p-cel" value="310 482 91"><span class="err">El celular debe tener 10 dígitos.</span></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Dirección de recolección</h4></div>
+            <div class="form-grid">
+              <div class="field"><label for="p-ciu">Ciudad</label><div class="input select" id="p-ciu">Bogotá D.C.</div></div>
+              <div class="field"><label for="p-bar">Barrio</label><input class="input" id="p-bar" value="Chicó Norte"></div>
+              <div class="field full"><label for="p-dir">Dirección</label><input class="input" id="p-dir" value="Cra. 11 # 93-46, Apto 502"><span class="help">Incluye torre, apartamento o indicaciones para el mensajero.</span></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Cuenta bancaria</h4><span class="faint" style="font-size:12px">Debe estar a tu nombre</span></div>
+            <div class="form-grid">
+              <div class="field"><label for="p-banco">Banco</label><div class="input select" id="p-banco">Bancolombia</div></div>
+              <div class="field"><label for="p-tcta">Tipo de cuenta</label><div class="seg" role="group"><button type="button" aria-pressed="true">Ahorros</button><button type="button" aria-pressed="false">Corriente</button></div></div>
+              <div class="field full"><label for="p-cta">Número de cuenta</label><input class="input mono" id="p-cta" value="236 - 184902 - 57"></div>
+            </div>
+          </fieldset>
+        </div>
+        <aside class="stack">
+          <div class="card pad curve" style="background:var(--surface-2)">
+            <div class="eyebrow">Por qué pedimos esto</div>
+            <p style="margin-top:10px;font-size:14px" class="muted">Con tu cédula generamos el contrato de consignación. La cuenta bancaria es donde te transferimos lo que recibes por cada venta.</p>
+            <div class="divider" style="margin:16px 0"></div>
+            <div class="stack" style="gap:10px;font-size:13.5px">
+              <div class="row" style="gap:10px"><svg width="18" height="18" style="color:var(--olive)"><use href="#i-check"/></svg>Tus datos no se publican</div>
+              <div class="row" style="gap:10px"><svg width="18" height="18" style="color:var(--olive)"><use href="#i-check"/></svg>Pagos cada 15 días</div>
+              <div class="row" style="gap:10px"><svg width="18" height="18" style="color:var(--olive)"><use href="#i-check"/></svg>Puedes editar tu cuenta cuando quieras</div>
+            </div>
+          </div>
+          <label class="check" role="checkbox" aria-checked="true" tabindex="0"><span class="box"></span><span class="muted">Acepto el tratamiento de datos personales y los términos de ClosetUp.</span></label>
+          <button class="btn primary" data-go="postular">Guardar y postular mi primer producto <svg><use href="#i-arrow"/></svg></button>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: postular productos</span><button class="btn dark sm" data-go="postular">Ir a V5 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V4 MARCA -->
+<section class="screen" id="datos-marca" data-grp="vendedor" aria-labelledby="h-dm">
+  <div class="caption">
+    <div><div class="eyebrow">V4 · Registro marca</div><h2 id="h-dm">Datos de la marca y facturación</h2>
+      <p>Para marcas pedimos datos legales y soportes. Si la marca factura, se abre la sección del equipo contable. Prueba el interruptor "¿Tu marca factura?".</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor · Marca</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/registro/marca</span></div>
+    <div class="pbody">
+      <div class="progress">
+        <span class="done"><b>✓</b>Tipo de cuenta</span><i></i><span class="now"><b>2</b>Datos de la marca</span><i></i><span><b>3</b>Facturación</span><i></i><span><b>4</b>Primer producto</span>
+      </div>
+      <div class="split">
+        <div class="stack" style="gap:22px">
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Empresa</h4></div>
+            <div class="form-grid">
+              <div class="field"><label for="m-rs">Razón social</label><input class="input" id="m-rs" value="Lirio Estudio S.A.S."></div>
+              <div class="field"><label for="m-nc">Nombre comercial</label><input class="input" id="m-nc" value="Lirio"></div>
+              <div class="field"><label for="m-nit">NIT</label><input class="input mono" id="m-nit" value="901.487.263 - 4"></div>
+              <div class="field"><label for="m-reg">Régimen tributario</label><div class="input select" id="m-reg">Responsable de IVA</div></div>
+              <div class="field"><label for="m-rl">Representante legal</label><input class="input" id="m-rl" value="Mariana Quintero Salazar"></div>
+              <div class="field"><label for="m-cc">Cédula del representante</label><input class="input mono" id="m-cc" value="43.918.205"></div>
+              <div class="field full"><label for="m-dir">Dirección de bodega o tienda</label><input class="input" id="m-dir" value="Cl. 10 Sur # 43A-18, El Poblado, Medellín"></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Documentos</h4><span class="faint" style="font-size:12px">PDF, máx. 5 MB</span></div>
+            <div class="grid-3">
+              <div class="note good"><svg><use href="#i-check"/></svg><span><b style="font-weight:500">RUT</b><br><span style="font-size:12px">rut-lirio-2026.pdf</span></span></div>
+              <div class="note good"><svg><use href="#i-check"/></svg><span><b style="font-weight:500">Cámara de comercio</b><br><span style="font-size:12px">Menor a 30 días</span></span></div>
+              <div class="note"><svg><use href="#i-upload"/></svg><span><b style="font-weight:500">Certificación bancaria</b><br><span style="font-size:12px">Subir archivo</span></span></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Facturación</h4></div>
+            <div class="switch" role="switch" aria-checked="true" tabindex="0" id="factura-sw"><span class="track"></span><span><b style="font-weight:500">¿Tu marca factura?</b><br><span class="faint" style="font-size:13px">Si emites factura electrónica, ClosetUp te pedirá una factura por cada liquidación.</span></span></div>
+            <div id="contable" class="form-grid" style="margin-top:18px">
+              <div class="field full"><div class="eyebrow">Contacto del equipo contable</div></div>
+              <div class="field"><label for="m-cn">Nombre</label><input class="input" id="m-cn" value="Andrés Felipe Cardona"></div>
+              <div class="field"><label for="m-cr">Cargo</label><input class="input" id="m-cr" value="Contador"></div>
+              <div class="field"><label for="m-ce">Correo para facturas</label><input class="input" id="m-ce" value="contabilidad@lirioestudio.co"></div>
+              <div class="field"><label for="m-ct">Teléfono</label><input class="input mono" id="m-ct" value="604 448 2731"></div>
+              <div class="field full"><label for="m-res">Resolución de facturación DIAN</label><input class="input mono" id="m-res" value="18764052981337 · Prefijo LIR"></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Cuenta bancaria de la empresa</h4></div>
+            <div class="form-grid">
+              <div class="field"><label for="m-b">Banco</label><div class="input select" id="m-b">Banco de Bogotá</div></div>
+              <div class="field"><label for="m-tc">Tipo de cuenta</label><div class="seg" role="group"><button type="button" aria-pressed="false">Ahorros</button><button type="button" aria-pressed="true">Corriente</button></div></div>
+              <div class="field full"><label for="m-cta">Número de cuenta</label><input class="input mono" id="m-cta" value="489 - 30271 - 6"></div>
+            </div>
+          </fieldset>
+        </div>
+        <aside class="stack">
+          <div class="card pad curve" style="background:var(--ink);color:var(--bg);border-color:var(--ink)">
+            <div class="eyebrow" style="color:var(--sand)">Marcas locales</div>
+            <h4 style="font-size:20px;margin-top:10px">Prendas nuevas, sobrestock y colecciones pasadas</h4>
+            <p style="font-size:14px;margin-top:8px;color:var(--sand)">Las marcas postulan por lotes. Para prendas nuevas el estado se registra como "Nuevo con etiqueta".</p>
+          </div>
+          <div class="note warn"><svg><use href="#i-info"/></svg><span>Falta la certificación bancaria. Puedes continuar y subirla antes de firmar el contrato.</span></div>
+          <button class="btn primary" data-go="postular">Guardar y postular productos <svg><use href="#i-arrow"/></svg></button>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: postular productos</span><button class="btn dark sm" data-go="postular">Ir a V5 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V5 POSTULAR -->
+<section class="screen" id="postular" data-grp="vendedor" aria-labelledby="h-post">
+  <div class="caption">
+    <div><div class="eyebrow">V5 · Postulación</div><h2 id="h-post">Postular un producto</h2>
+      <p>Cuanta más información, mejor evaluamos. Categoría, marca, talla, color, descripción, estado con % de uso y el valor que el vendedor quiere recibir. Ese valor es la base para el pricing.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/postular</span></div>
+    <div class="pnav"><span class="logo" role="img" aria-label="ClosetUp"></span>
+      <nav><span aria-current="page">Postular</span><span>Mis productos</span><span>Ventas y pagos</span><span>Mi cuenta</span></nav>
+      <div class="me"><span class="avatar">VO</span><span class="muted">Valentina</span></div></div>
+    <div class="pbody">
+      <div class="split">
+        <div class="stack" style="gap:22px">
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Fotos</h4><span class="faint" style="font-size:12px">Mínimo 3: frente, espalda y etiqueta</span></div>
+            <div class="row" style="gap:10px">
+              <div class="thumb md c-camel"><svg><use href="#g-jacket"/></svg></div>
+              <div class="thumb md c-camel" style="filter:brightness(.9)"><svg><use href="#g-jacket"/></svg></div>
+              <div class="thumb md c-cream"><svg><use href="#i-tag"/></svg></div>
+              <div class="thumb md add"><span><svg width="18" height="18"><use href="#i-upload"/></svg><br>Agregar</span></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Detalles</h4></div>
+            <div class="form-grid">
+              <div class="field full"><label>Categoría</label>
+                <div class="pills" data-single>
+                  <button class="pill" aria-pressed="true">Chaqueta</button><button class="pill" aria-pressed="false">Blazer</button><button class="pill" aria-pressed="false">Pantalón</button><button class="pill" aria-pressed="false">Vestido</button><button class="pill" aria-pressed="false">Blusa</button><button class="pill" aria-pressed="false">Falda</button><button class="pill" aria-pressed="false">Bolso</button><button class="pill" aria-pressed="false">Zapatos</button><button class="pill" aria-pressed="false">Accesorios</button>
+                </div></div>
+              <div class="field"><label for="f-marca">Marca</label><input class="input" id="f-marca" value="Zara"><span class="help">Nacional o internacional. Ej: Zara, H&amp;M, Pepa Pombo, Mango</span></div>
+              <div class="field"><label for="f-talla">Talla</label><div class="input select" id="f-talla">M</div></div>
+              <div class="field"><label for="f-color">Color</label><div class="input select" id="f-color"><span class="row" style="gap:8px"><span style="width:14px;height:14px;border-radius:4px;background:#B08355;display:inline-block"></span>Camel</span></div></div>
+              <div class="field"><label for="f-mat">Material <span class="faint">(opcional)</span></label><input class="input" id="f-mat" value="Paño, 60% lana"></div>
+              <div class="field full"><label for="f-desc">Descripción</label><textarea class="input" id="f-desc">Chaqueta tipo abrigo corto, cruzada, con botones dorados. La usé en dos temporadas, sin manchas ni rotos. Forro completo en buen estado.</textarea></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>Estado</h4></div>
+            <div class="pills" data-single>
+              <button class="pill" aria-pressed="false">Nuevo con etiqueta</button>
+              <button class="pill" aria-pressed="false">Nuevo sin etiqueta</button>
+              <button class="pill" aria-pressed="true">Como nuevo</button>
+              <button class="pill" aria-pressed="false">Buen estado</button>
+              <button class="pill" aria-pressed="false">Con detalles</button>
+            </div>
+            <div class="field" style="margin-top:18px">
+              <label for="f-uso">Porcentaje de uso <span class="mono" id="uso-val" style="color:var(--ink)">20%</span></label>
+              <input type="range" id="f-uso" min="0" max="100" step="5" value="20" style="accent-color:var(--red);width:100%">
+              <div class="row faint" style="justify-content:space-between;font-size:12px"><span>0% · nunca usado</span><span>100% · muy usado</span></div>
+            </div>
+          </fieldset>
+          <fieldset class="card pad">
+            <div class="section-title"><h4>¿Cuánto quieres recibir?</h4></div>
+            <div class="form-grid">
+              <div class="field"><label for="f-precio">Valor que deseas recibir</label><input class="input mono" id="f-precio" value="$ 120.000"><span class="help">Es lo que llega a tu cuenta, ya descontada la comisión.</span></div>
+              <div class="field"><label for="f-compra">Precio de compra original <span class="faint">(opcional)</span></label><input class="input mono" id="f-compra" value="$ 329.900"></div>
+            </div>
+          </fieldset>
+        </div>
+        <aside class="stack" style="position:sticky;top:80px">
+          <div class="card pad">
+            <div class="eyebrow">Vista previa</div>
+            <div class="thumb lg c-camel" style="margin-top:12px"><svg><use href="#g-jacket"/></svg></div>
+            <div style="margin-top:14px"><b style="font-weight:600">Chaqueta cruzada de paño</b><div class="muted" style="font-size:13.5px">Zara · Talla M · Camel</div></div>
+            <div class="row" style="margin-top:10px;gap:6px"><span class="status s-ok">Como nuevo</span><span class="status s-new">20% de uso</span></div>
+            <div class="divider" style="margin:14px 0"></div>
+            <dl class="kv"><dt>Quieres recibir</dt><dd class="mono">$120.000</dd><dt>Comisión ClosetUp</dt><dd>40% del precio de venta</dd><dt>Precio estimado en tienda</dt><dd class="mono">$200.000</dd></dl>
+          </div>
+          <div class="note"><svg><use href="#i-info"/></svg><span>El precio final se acuerda después de revisar la prenda en nuestro hub.</span></div>
+          <button class="btn ghost">Guardar y agregar otro</button>
+          <button class="btn primary" data-go="mis-productos">Enviar postulación (3 productos) <svg><use href="#i-arrow"/></svg></button>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Luego el equipo revisa la postulación (E2) y el vendedor ve el estado</span><button class="btn dark sm" data-go="mis-productos">Ir a V6 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V6 MIS PRODUCTOS -->
+<section class="screen" id="mis-productos" data-grp="vendedor" aria-labelledby="h-mp">
+  <div class="caption">
+    <div><div class="eyebrow">V6 · Seguimiento</div><h2 id="h-mp">Mis productos</h2>
+      <p>El vendedor ve en qué paso va cada prenda y qué acción le toca. Las acciones pendientes (confirmar recolección, responder oferta, firmar) aparecen arriba.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/mis-productos</span></div>
+    <div class="pnav"><span class="logo" role="img" aria-label="ClosetUp"></span>
+      <nav><span>Postular</span><span aria-current="page">Mis productos</span><span>Ventas y pagos</span><span>Mi cuenta</span></nav>
+      <div class="me"><span class="avatar">VO</span><span class="muted">Valentina</span></div></div>
+    <div class="pbody stack" style="gap:22px">
+      <div class="grid-2">
+        <div class="card pad row curve-l" style="background:var(--red-soft);border-color:transparent;justify-content:space-between">
+          <div class="row" style="gap:14px"><span class="avatar" style="background:var(--red);color:#fff"><svg width="18" height="18"><use href="#i-truck"/></svg></span>
+            <div><b style="font-weight:600">Confirma tu recolección</b><div class="muted" style="font-size:13.5px">2 productos aprobados esperan fecha</div></div></div>
+          <button class="btn primary sm" data-go="recoleccion">Elegir fecha</button>
+        </div>
+        <div class="card pad row curve" style="background:var(--wine-soft);border-color:transparent;justify-content:space-between">
+          <div class="row" style="gap:14px"><span class="avatar" style="background:var(--wine);color:#fff"><svg width="18" height="18"><use href="#i-tag"/></svg></span>
+            <div><b style="font-weight:600">Tienes una contraoferta</b><div class="muted" style="font-size:13.5px">Lote #CU-2291 · 4 prendas</div></div></div>
+          <button class="btn dark sm" data-go="oferta">Ver oferta</button>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:space-between">
+        <div class="seg" role="group" data-single><button aria-pressed="true">Todos · 9</button><button aria-pressed="false">En proceso · 6</button><button aria-pressed="false">Publicados · 2</button><button aria-pressed="false">Vendidos · 1</button></div>
+        <button class="btn primary sm" data-go="postular">+ Postular producto</button>
+      </div>
+
+      <div class="card pad">
+        <div class="prodcell" style="justify-content:space-between;flex-wrap:wrap">
+          <div class="prodcell"><div class="thumb md c-camel"><svg><use href="#g-jacket"/></svg></div>
+            <div><b style="font-weight:600">Chaqueta cruzada de paño</b><div class="muted" style="font-size:13.5px">Zara · M · Camel · pediste <span class="mono">$120.000</span></div></div></div>
+          <span class="status s-wait">Recolección por confirmar</span>
+        </div>
+        <div class="track" style="margin-top:18px">
+          <div class="done"><i></i>Postulado</div><div class="done"><i></i>Aprobado</div><div class="now"><i></i>Recolección</div><div><i></i>Revisión en hub</div><div><i></i>Precio</div><div><i></i>Contrato</div><div><i></i>Publicado</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Producto</th><th>Postulado</th><th>Pediste</th><th>Propuesta</th><th>Estado</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><div class="prodcell"><div class="thumb c-denim"><svg><use href="#g-pants"/></svg></div><div>Jean recto tiro alto<span class="sub">Levi's · 28 · Azul medio</span></div></div></td><td class="mono">12 sep</td><td class="mono">$85.000</td><td class="mono">$72.000</td><td><span class="status s-wine">Contraoferta</span></td><td><button class="btn ghost sm" data-go="oferta">Responder</button></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-wine"><svg><use href="#g-dress"/></svg></div><div>Vestido midi satinado<span class="sub">Mango · S · Vino</span></div></div></td><td class="mono">12 sep</td><td class="mono">$110.000</td><td class="mono">$105.000</td><td><span class="status s-wine">Contraoferta</span></td><td><button class="btn ghost sm" data-go="oferta">Responder</button></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-olive"><svg><use href="#g-bag"/></svg></div><div>Bolso de cuero tipo tote<span class="sub">Vélez · Único · Oliva</span></div></div></td><td class="mono">28 ago</td><td class="mono">$260.000</td><td class="mono">$240.000</td><td><span class="status s-ok">Publicado</span></td><td><span class="faint" style="font-size:12.5px">142 visitas</span></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-ink"><svg><use href="#g-top"/></svg></div><div>Blusa de lino manga corta<span class="sub">H&amp;M · M · Negro</span></div></div></td><td class="mono">19 sep</td><td class="mono">$45.000</td><td class="faint">—</td><td><span class="status s-new">En revisión</span></td><td></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-rose"><svg><use href="#g-shoe"/></svg></div><div>Tenis de lona<span class="sub">Converse · 37 · Rosa</span></div></div></td><td class="mono">19 sep</td><td class="mono">$70.000</td><td class="faint">—</td><td><span class="status s-no">No apto</span><span class="sub">Suela con desgaste alto</span></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: confirmar la recolección</span><button class="btn dark sm" data-go="recoleccion">Ir a V7 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V7 RECOLECCION -->
+<section class="screen" id="recoleccion" data-grp="vendedor" aria-labelledby="h-rec">
+  <div class="caption">
+    <div><div class="eyebrow">V7 · Notificación de recolección</div><h2 id="h-rec">Confirmar la recolección</h2>
+      <p>Llega por correo y WhatsApp cuando el equipo aprueba productos. El vendedor elige día y franja, confirma dirección y ve qué prendas debe entregar.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="grid-2" style="grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:start">
+    <div class="frame" style="max-width:380px;justify-self:center;width:100%;border-radius:34px">
+      <div style="padding:14px 18px 8px;display:flex;justify-content:space-between;font-size:12px" class="mono"><span>9:41</span><span>WhatsApp</span></div>
+      <div style="padding:10px 16px 22px;background:var(--surface-2)">
+        <div class="row" style="gap:10px;padding:6px 0 12px"><span class="avatar" style="background:var(--red)"><span class="logo" style="height:8px;background:#fff"></span></span><b style="font-weight:600;font-size:14px">ClosetUp</b></div>
+        <div class="card" style="padding:14px;border-radius:4px 16px 16px 16px;font-size:14px">
+          <p>Hola Valentina, aprobamos <b style="font-weight:600">2 de tus 3 productos</b> para la venta.</p>
+          <p style="margin-top:8px">Elige cuándo pasamos a recogerlos. La recolección no tiene costo.</p>
+          <div class="btn primary sm" style="margin-top:12px;width:100%">Elegir fecha de recolección</div>
+          <p class="faint" style="font-size:11px;margin-top:8px;text-align:right">10:02 a. m.</p>
+        </div>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/recoleccion/CU-2304</span></div>
+      <div class="pbody stack" style="gap:20px">
+        <div><div class="eyebrow">Recolección #CU-2304</div><h3 style="font-size:24px;margin-top:6px">¿Cuándo pasamos por tus prendas?</h3></div>
+        <div class="days" data-single>
+          <button class="day" aria-pressed="false">Lun<b>28</b>sep</button>
+          <button class="day" aria-pressed="true">Mar<b>29</b>sep</button>
+          <button class="day" aria-pressed="false" disabled>Mié<b>30</b>lleno</button>
+          <button class="day" aria-pressed="false">Jue<b>1</b>oct</button>
+          <button class="day" aria-pressed="false">Vie<b>2</b>oct</button>
+        </div>
+        <div class="slots pills" data-single>
+          <button class="pill" aria-pressed="false">8:00 – 11:00</button>
+          <button class="pill" aria-pressed="true">11:00 – 2:00</button>
+          <button class="pill" aria-pressed="false">2:00 – 5:00</button>
+        </div>
+        <div class="card pad" style="padding:16px">
+          <div class="row" style="justify-content:space-between"><div><div class="eyebrow">Dirección</div><div style="margin-top:4px">Cra. 11 # 93-46, Apto 502 · Chicó Norte, Bogotá</div></div><button class="btn ghost sm">Cambiar</button></div>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:8px">Ten listas estas prendas</div>
+          <div class="stack" style="gap:10px">
+            <div class="prodcell"><div class="thumb c-camel"><svg><use href="#g-jacket"/></svg></div><div>Chaqueta cruzada de paño<span class="sub faint" style="display:block;font-size:12px">Zara · M</span></div><span class="status s-ok" style="margin-left:auto">Aprobado</span></div>
+            <div class="prodcell"><div class="thumb c-sand"><svg><use href="#g-top"/></svg></div><div>Camisa de algodón oversize<span class="sub faint" style="display:block;font-size:12px">Arturo Calle · L</span></div><span class="status s-ok" style="margin-left:auto">Aprobado</span></div>
+            <div class="prodcell" style="opacity:.6"><div class="thumb c-rose"><svg><use href="#g-shoe"/></svg></div><div>Tenis de lona<span class="sub faint" style="display:block;font-size:12px">No apto · suela con desgaste alto</span></div><span class="status s-no" style="margin-left:auto">No apto</span></div>
+          </div>
+        </div>
+        <div class="note"><svg><use href="#i-info"/></svg><span>Entrégalas limpias y en una bolsa. El mensajero te dará un comprobante con el número de lote.</span></div>
+        <button class="btn primary" data-go="oferta">Confirmar martes 29 · 11:00 a 2:00</button>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Después el equipo recibe y revisa en el hub (E4) y define precio (E5)</span><button class="btn dark sm" data-go="oferta">Ir a V8 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V8 OFERTA -->
+<section class="screen" id="oferta" data-grp="vendedor" aria-labelledby="h-of">
+  <div class="caption">
+    <div><div class="eyebrow">V8 · Negociación</div><h2 id="h-of">Contraoferta de precio</h2>
+      <p>Tras revisar las prendas en el hub, ClosetUp propone cuánto recibe el vendedor por cada una. El vendedor puede aceptar, proponer otro valor o pedir que se la devuelvan.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/oferta/CU-2291</span></div>
+    <div class="pnav"><span class="logo" role="img" aria-label="ClosetUp"></span>
+      <nav><span>Postular</span><span aria-current="page">Mis productos</span><span>Ventas y pagos</span><span>Mi cuenta</span></nav>
+      <div class="me"><span class="avatar">VO</span><span class="muted">Valentina</span></div></div>
+    <div class="pbody">
+      <div class="row" style="justify-content:space-between;margin-bottom:18px">
+        <div><div class="eyebrow">Lote #CU-2291 · revisado el 22 sep</div><h3 style="font-size:24px;margin-top:6px">Revisamos tus 4 prendas</h3></div>
+        <span class="status s-wait">Responde antes del 29 sep</span>
+      </div>
+      <div class="split">
+        <div class="stack">
+          <div class="card pad">
+            <div class="prodcell" style="align-items:flex-start;flex-wrap:wrap">
+              <div class="thumb md c-camel"><svg><use href="#g-jacket"/></svg></div>
+              <div style="flex:1;min-width:200px">
+                <div class="row" style="justify-content:space-between"><b style="font-weight:600">Chaqueta cruzada de paño</b><span class="status s-ok">Estado A · como nuevo</span></div>
+                <div class="grid-3" style="margin-top:12px;gap:10px">
+                  <div><div class="faint" style="font-size:12px">Pediste</div><div class="mono" style="text-decoration:line-through;color:var(--ink-3)">$120.000</div></div>
+                  <div><div class="faint" style="font-size:12px">Te proponemos</div><div class="mono" style="font-size:18px;font-weight:500;color:var(--red)">$96.000</div></div>
+                  <div><div class="faint" style="font-size:12px">Precio en tienda</div><div class="mono">$160.000</div></div>
+                </div>
+                <p class="muted" style="font-size:13px;margin-top:10px">Prendas similares de Zara se venden entre $140.000 y $175.000 en ClosetUp.</p>
+                <div class="seg" role="group" style="margin-top:12px" data-single><button aria-pressed="true">Aceptar</button><button aria-pressed="false">Proponer otro valor</button><button aria-pressed="false">Devolver prenda</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="card pad">
+            <div class="prodcell" style="align-items:flex-start;flex-wrap:wrap">
+              <div class="thumb md c-denim"><svg><use href="#g-pants"/></svg></div>
+              <div style="flex:1;min-width:200px">
+                <div class="row" style="justify-content:space-between"><b style="font-weight:600">Jean recto tiro alto</b><span class="status s-wait">Estado B · detalle en ruedo</span></div>
+                <div class="grid-3" style="margin-top:12px;gap:10px">
+                  <div><div class="faint" style="font-size:12px">Pediste</div><div class="mono" style="text-decoration:line-through;color:var(--ink-3)">$85.000</div></div>
+                  <div><div class="faint" style="font-size:12px">Te proponemos</div><div class="mono" style="font-size:18px;font-weight:500;color:var(--red)">$72.000</div></div>
+                  <div><div class="faint" style="font-size:12px">Precio en tienda</div><div class="mono">$120.000</div></div>
+                </div>
+                <div class="seg" role="group" style="margin-top:12px" data-single><button aria-pressed="false">Aceptar</button><button aria-pressed="true">Proponer otro valor</button><button aria-pressed="false">Devolver prenda</button></div>
+                <div class="form-grid" style="margin-top:12px">
+                  <div class="field"><label for="o-cp">Tu contrapropuesta</label><input class="input mono" id="o-cp" value="$ 78.000"></div>
+                  <div class="field"><label for="o-mot">Comentario</label><input class="input" id="o-mot" value="Es edición 501 original"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card pad">
+            <div class="prodcell" style="flex-wrap:wrap">
+              <div class="thumb md c-wine"><svg><use href="#g-dress"/></svg></div>
+              <div style="flex:1;min-width:200px">
+                <div class="row" style="justify-content:space-between"><b style="font-weight:600">Vestido midi satinado</b><span class="status s-ok">Aceptado</span></div>
+                <div class="muted mono" style="font-size:13.5px;margin-top:6px">Recibes $105.000 · en tienda $175.000</div>
+              </div>
+            </div>
+          </div>
+          <div class="card pad">
+            <div class="prodcell" style="flex-wrap:wrap">
+              <div class="thumb md c-sand"><svg><use href="#g-top"/></svg></div>
+              <div style="flex:1;min-width:200px">
+                <div class="row" style="justify-content:space-between"><b style="font-weight:600">Camisa de algodón oversize</b><span class="status s-ok">Aceptado</span></div>
+                <div class="muted mono" style="font-size:13.5px;margin-top:6px">Recibes $48.000 · en tienda $80.000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <aside class="stack" style="position:sticky;top:80px">
+          <div class="card pad curve">
+            <div class="eyebrow">Resumen del lote</div>
+            <dl class="kv" style="margin-top:14px">
+              <dt>Aceptadas</dt><dd>3 de 4</dd>
+              <dt>Precio total en tienda</dt><dd class="mono">$415.000</dd>
+              <dt>Comisión ClosetUp · 40%</dt><dd class="mono">−$166.000</dd>
+            </dl>
+            <div class="divider" style="margin:14px 0"></div>
+            <div class="faint" style="font-size:12.5px">Recibirías al venderse todo</div>
+            <div class="bigprice mono">$249.000</div>
+            <p class="faint" style="font-size:12.5px;margin-top:4px">Más el jean si aceptamos tu contrapropuesta.</p>
+          </div>
+          <div class="note"><svg><use href="#i-info"/></svg><span>Si devuelves una prenda, la enviamos a tu dirección sin costo en los siguientes 10 días.</span></div>
+          <button class="btn primary" data-go="contrato">Enviar respuesta</button>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Con el precio acordado se genera el contrato</span><button class="btn dark sm" data-go="contrato">Ir a V9 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V9 CONTRATO -->
+<section class="screen" id="contrato" data-grp="vendedor" aria-labelledby="h-con">
+  <div class="caption">
+    <div><div class="eyebrow">V9 · Contrato</div><h2 id="h-con">Firmar el contrato de consignación</h2>
+      <p>El contrato se llena con los datos del registro y los precios acordados. El vendedor lo lee, acepta las condiciones y firma en pantalla. Recibe una copia en PDF.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/contrato/CU-2291</span></div>
+    <div class="pbody">
+      <div class="split">
+        <div class="doc">
+          <h4>Contrato de consignación de mercancía No. CU-2291</h4>
+          <p>Entre <strong>CLOSETUP S.A.S.</strong>, en adelante EL CONSIGNATARIO, y <strong>Valentina Ospina Restrepo</strong>, identificada con C.C. <strong>1.020.458.713</strong>, en adelante EL CONSIGNANTE, se celebra el presente contrato.</p>
+          <h4>1. Objeto</h4>
+          <p>EL CONSIGNANTE entrega a ClosetUp las prendas relacionadas en el Anexo 1 para que sean exhibidas y vendidas en closetup.com y en sus canales, conservando EL CONSIGNANTE la propiedad hasta el momento de la venta.</p>
+          <h4>2. Precio y comisión</h4>
+          <p>Por cada prenda vendida ClosetUp retendrá una comisión del <strong>40% del precio de venta</strong> y transferirá el valor acordado a la cuenta <strong>Bancolombia ahorros terminada en 57</strong>.</p>
+          <h4>3. Plazo</h4>
+          <p>Las prendas permanecerán en consignación por <strong>90 días</strong>. Pasado el plazo, EL CONSIGNANTE podrá solicitar su devolución o autorizar un ajuste de precio.</p>
+          <h4>4. Pagos</h4>
+          <p>Los pagos se liquidan los días 15 y 30 de cada mes por las ventas cuyo plazo de devolución haya terminado.</p>
+          <h4>Anexo 1 · Prendas</h4>
+          <p>Chaqueta cruzada Zara M · $96.000<br>Vestido midi Mango S · $105.000<br>Camisa oversize Arturo Calle L · $48.000</p>
+        </div>
+        <aside class="stack">
+          <div class="card pad">
+            <div class="eyebrow">Resumen</div>
+            <dl class="kv" style="margin-top:12px"><dt>Prendas</dt><dd>3</dd><dt>Comisión</dt><dd>40%</dd><dt>Plazo</dt><dd>90 días</dd><dt>Recibirías</dt><dd class="mono">$249.000</dd></dl>
+          </div>
+          <label class="check" role="checkbox" aria-checked="true" tabindex="0"><span class="box"></span><span class="muted">Leí y acepto las condiciones del contrato.</span></label>
+          <label class="check" role="checkbox" aria-checked="false" tabindex="0"><span class="box"></span><span class="muted">Autorizo el ajuste de precio automático del 15% a los 60 días.</span></label>
+          <div>
+            <div class="row" style="justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:500" class="muted">Tu firma</span><button class="btn ghost sm">Borrar</button></div>
+            <div class="sig"><svg><use href="#i-sign"/></svg><small>Valentina Ospina R. · 23 sep 2026</small></div>
+          </div>
+          <button class="btn primary" data-go="pagos"><svg><use href="#i-pen"/></svg>Firmar contrato</button>
+          <p class="faint" style="font-size:12px;text-align:center">Se registran fecha, hora e IP de la firma.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">El equipo verifica la firma y publica las prendas (E6)</span><button class="btn dark sm" data-go="pagos">Ir a V10 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== V10 PAGOS -->
+<section class="screen" id="pagos" data-grp="vendedor" aria-labelledby="h-pag">
+  <div class="caption">
+    <div><div class="eyebrow">V10 · Ventas y pagos</div><h2 id="h-pag">Ventas y pagos</h2>
+      <p>Lo que el vendedor ya vendió, lo que tiene por cobrar y cuándo le llega. Cada pago muestra el detalle por prenda.</p></div>
+    <div class="meta"><span class="chip cv"><span class="dot"></span>Vendedor</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">closetup.com/vende/pagos</span></div>
+    <div class="pnav"><span class="logo" role="img" aria-label="ClosetUp"></span>
+      <nav><span>Postular</span><span>Mis productos</span><span aria-current="page">Ventas y pagos</span><span>Mi cuenta</span></nav>
+      <div class="me"><span class="avatar">VO</span><span class="muted">Valentina</span></div></div>
+    <div class="pbody stack" style="gap:22px">
+      <div class="grid-3">
+        <div class="card pad curve-l" style="background:var(--ink);color:var(--bg);border-color:var(--ink)">
+          <div class="eyebrow" style="color:var(--sand)">Próximo pago · 30 sep</div>
+          <div class="bigprice mono" style="margin-top:8px">$201.000</div>
+          <div style="font-size:13px;color:var(--sand);margin-top:4px">A Bancolombia ahorros ···57</div>
+        </div>
+        <div class="card pad"><div class="eyebrow">Vendido este mes</div><div class="bigprice mono" style="margin-top:8px">3</div><div class="faint" style="font-size:13px">prendas · $735.000 en ventas</div></div>
+        <div class="card pad"><div class="eyebrow">Total recibido</div><div class="bigprice mono" style="margin-top:8px">$1.184.600</div><div class="faint" style="font-size:13px">desde marzo 2026</div></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Prenda</th><th>Vendida</th><th>Precio de venta</th><th>Comisión 40%</th><th>Recibes</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td><div class="prodcell"><div class="thumb c-olive"><svg><use href="#g-bag"/></svg></div><div>Bolso de cuero tipo tote<span class="sub">Vélez</span></div></div></td><td class="mono">21 sep</td><td class="mono">$400.000</td><td class="mono faint">−$160.000</td><td class="mono">$240.000</td><td><span class="status s-wait">En periodo de devolución</span></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-camel"><svg><use href="#g-jacket"/></svg></div><div>Chaqueta cruzada de paño<span class="sub">Zara</span></div></div></td><td class="mono">14 sep</td><td class="mono">$160.000</td><td class="mono faint">−$64.000</td><td class="mono">$96.000</td><td><span class="status s-ok">Pago 30 sep</span></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-wine"><svg><use href="#g-dress"/></svg></div><div>Vestido midi satinado<span class="sub">Mango</span></div></div></td><td class="mono">9 sep</td><td class="mono">$175.000</td><td class="mono faint">−$70.000</td><td class="mono">$105.000</td><td><span class="status s-ok">Pago 30 sep</span></td></tr>
+            <tr><td><div class="prodcell"><div class="thumb c-ink"><svg><use href="#g-top"/></svg></div><div>Blazer de lino<span class="sub">Massimo Dutti</span></div></div></td><td class="mono">27 ago</td><td class="mono">$210.000</td><td class="mono faint">−$84.000</td><td class="mono">$126.000</td><td><span class="status s-ink">Pagado 30 ago</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Fin del recorrido del vendedor</span><button class="btn dark sm" data-go="resumen">Ver el lado del equipo <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== E1 RESUMEN -->
+<section class="screen" id="resumen" data-grp="ops" aria-labelledby="h-res">
+  <div class="caption">
+    <div><div class="eyebrow">E1 · Backoffice</div><h2 id="h-res">Resumen operativo</h2>
+      <p>Lo primero que ve el equipo al entrar: cuántos productos hay en cada etapa, qué está atrasado y las tareas del día.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span aria-current="page">Resumen</span><span>Postulaciones <b>38</b></span><span>Recolecciones <b>12</b></span><span>Recepción hub <b>21</b></span><span>Pricing <b>17</b></span><span>Contratos <b>9</b></span><span>Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head"><h3>Buenos días, Laura</h3><span class="faint" style="font-size:13.5px">Viernes 25 de septiembre</span>
+          <div class="actions"><div class="search"><svg width="15" height="15"><use href="#i-search"/></svg>Buscar vendedor, lote o SKU</div></div></div>
+        <div class="pipe" style="margin-bottom:18px">
+          <div class="hot"><span class="lbl">Postulados por revisar</span><span class="v">38</span><span class="bar"><i style="width:92%"></i></span></div>
+          <div><span class="lbl">Recolección agendada</span><span class="v">12</span><span class="bar"><i style="width:30%"></i></span></div>
+          <div><span class="lbl">En revisión en hub</span><span class="v">21</span><span class="bar"><i style="width:52%"></i></span></div>
+          <div><span class="lbl">Por poner precio</span><span class="v">17</span><span class="bar"><i style="width:41%"></i></span></div>
+          <div><span class="lbl">Esperando al vendedor</span><span class="v">26</span><span class="bar"><i style="width:63%"></i></span></div>
+          <div><span class="lbl">Contrato por firmar</span><span class="v">9</span><span class="bar"><i style="width:22%"></i></span></div>
+          <div><span class="lbl">Publicados</span><span class="v">1.847</span><span class="bar"><i style="width:100%;background:var(--olive)"></i></span></div>
+        </div>
+        <div class="split" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)">
+          <div class="card pad">
+            <div class="section-title"><h4>Tareas de hoy</h4><span class="faint" style="font-size:12.5px">7 pendientes</span></div>
+            <div class="task"><span class="ic" style="color:var(--red)"><svg><use href="#i-box"/></svg></span><span><b style="font-weight:500">38 postulaciones sin revisar</b><span class="sub faint" style="display:block;font-size:12.5px">11 con más de 48 horas</span></span><button class="btn dark sm" data-go="postulaciones">Revisar</button></div>
+            <div class="task"><span class="ic"><svg><use href="#i-truck"/></svg></span><span><b style="font-weight:500">Ruta norte · 8 recolecciones</b><span class="sub faint" style="display:block;font-size:12.5px">Mensajero: Jhon Fredy Ríos · sale 10:30</span></span><button class="btn ghost sm" data-go="recolecciones">Ver ruta</button></div>
+            <div class="task"><span class="ic"><svg><use href="#i-check"/></svg></span><span><b style="font-weight:500">Lote CU-2310 llegó al hub</b><span class="sub faint" style="display:block;font-size:12.5px">14 prendas · Lirio Estudio</span></span><button class="btn ghost sm" data-go="hub">Recibir</button></div>
+            <div class="task"><span class="ic"><svg><use href="#i-tag"/></svg></span><span><b style="font-weight:500">17 prendas por poner precio</b><span class="sub faint" style="display:block;font-size:12.5px">3 contrapropuestas de vendedores</span></span><button class="btn ghost sm" data-go="pricing">Abrir pricing</button></div>
+            <div class="task"><span class="ic"><svg><use href="#i-cash"/></svg></span><span><b style="font-weight:500">Liquidación del 30 sep</b><span class="sub faint" style="display:block;font-size:12.5px">214 vendedores · 6 facturas de marca pendientes</span></span><button class="btn ghost sm" data-go="vendedores">Revisar</button></div>
+          </div>
+          <div class="card pad">
+            <div class="section-title"><h4>Postulaciones por día</h4><span class="faint" style="font-size:12.5px">Últimos 14 días</span></div>
+            <svg class="spark" viewBox="0 0 300 120" preserveAspectRatio="none" role="img" aria-label="Postulaciones diarias entre 22 y 61, subiendo a 58 hoy">
+              <line class="grid" x1="0" y1="20" x2="300" y2="20"/><line class="grid" x1="0" y1="60" x2="300" y2="60"/><line class="grid" x1="0" y1="100" x2="300" y2="100"/>
+              <path class="area" d="M0 78 L23 70 L46 82 L69 64 L92 58 L115 72 L138 50 L161 44 L184 56 L207 38 L230 46 L253 30 L276 24 L292 28 L292 100 L0 100Z"/>
+              <path class="line" d="M0 78 L23 70 L46 82 L69 64 L92 58 L115 72 L138 50 L161 44 L184 56 L207 38 L230 46 L253 30 L276 24 L292 28"/>
+              <circle class="end" cx="292" cy="28" r="4"/>
+              <text x="2" y="16">60</text><text x="2" y="56">40</text><text x="2" y="96">20</text>
+            </svg>
+            <div class="row" style="justify-content:space-between;margin-top:10px"><span class="faint" style="font-size:12.5px">Hoy</span><span class="mono" style="font-weight:500">58 postulaciones</span></div>
+            <div class="divider" style="margin:14px 0"></div>
+            <dl class="kv"><dt>Tasa de aprobación</dt><dd class="mono">63,4%</dd><dt>Días promedio a publicación</dt><dd class="mono">8,7</dd><dt>Ofertas aceptadas</dt><dd class="mono">81,2%</dd></dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: aprobar postulaciones</span><button class="btn dark sm" data-go="postulaciones">Ir a E2 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== E2 POSTULACIONES -->
+<section class="screen" id="postulaciones" data-grp="ops" aria-labelledby="h-pos">
+  <div class="caption">
+    <div><div class="eyebrow">E2 · Backoffice</div><h2 id="h-pos">Aprobar postulaciones</h2>
+      <p>Bandeja con todo lo postulado. Al abrir una postulación el equipo aprueba o rechaza cada producto con un motivo. Al aprobar, pasa a recolección.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com/postulaciones</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span>Resumen</span><span aria-current="page">Postulaciones <b>38</b></span><span>Recolecciones <b>12</b></span><span>Recepción hub <b>21</b></span><span>Pricing <b>17</b></span><span>Contratos <b>9</b></span><span>Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head"><h3>Postulaciones</h3>
+          <div class="actions"><div class="seg" data-single><button aria-pressed="true">Por revisar · 38</button><button aria-pressed="false">Aprobadas</button><button aria-pressed="false">Rechazadas</button></div></div></div>
+        <div class="split">
+          <div class="table-wrap">
+            <table style="min-width:560px">
+              <thead><tr><th>Vendedor</th><th>Productos</th><th>Ciudad</th><th>Espera</th></tr></thead>
+              <tbody>
+                <tr class="sel"><td><b style="font-weight:500">Valentina Ospina</b><span class="sub">Persona natural</span></td><td>3</td><td>Bogotá</td><td><span class="status s-no">52 h</span></td></tr>
+                <tr><td><b style="font-weight:500">Lirio Estudio S.A.S.</b><span class="sub">Marca · factura</span></td><td>14</td><td>Medellín</td><td><span class="status s-wait">31 h</span></td></tr>
+                <tr><td><b style="font-weight:500">Camila Andrea Rueda</b><span class="sub">Persona natural</span></td><td>6</td><td>Bogotá</td><td><span class="status s-new">9 h</span></td></tr>
+                <tr><td><b style="font-weight:500">Tres Puntadas</b><span class="sub">Marca · no factura</span></td><td>22</td><td>Cali</td><td><span class="status s-new">6 h</span></td></tr>
+                <tr><td><b style="font-weight:500">Sebastián Arango</b><span class="sub">Persona natural</span></td><td>2</td><td>Bogotá</td><td><span class="status s-new">2 h</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="drawer stack">
+            <div class="row" style="justify-content:space-between"><div><div class="eyebrow">Postulación #P-88412</div><b style="font-weight:600;font-size:17px">Valentina Ospina · 3 productos</b></div><button class="btn ghost sm" data-go="vendedores">Ver ficha</button></div>
+            <div class="card" style="padding:14px">
+              <div class="prodcell"><div class="thumb md c-camel"><svg><use href="#g-jacket"/></svg></div>
+                <div style="flex:1"><b style="font-weight:500">Chaqueta cruzada de paño</b><div class="faint" style="font-size:12.5px">Zara · M · Camel · Como nuevo · 20% uso</div><div class="mono" style="font-size:13px;margin-top:2px">Pide $120.000</div></div></div>
+              <div class="seg" style="margin-top:12px" data-single><button aria-pressed="true">Aprobar</button><button aria-pressed="false">No apto</button></div>
+            </div>
+            <div class="card" style="padding:14px">
+              <div class="prodcell"><div class="thumb md c-sand"><svg><use href="#g-top"/></svg></div>
+                <div style="flex:1"><b style="font-weight:500">Camisa de algodón oversize</b><div class="faint" style="font-size:12.5px">Arturo Calle · L · Arena · Buen estado · 35% uso</div><div class="mono" style="font-size:13px;margin-top:2px">Pide $55.000</div></div></div>
+              <div class="seg" style="margin-top:12px" data-single><button aria-pressed="true">Aprobar</button><button aria-pressed="false">No apto</button></div>
+            </div>
+            <div class="card" style="padding:14px;border-color:var(--red)">
+              <div class="prodcell"><div class="thumb md c-rose"><svg><use href="#g-shoe"/></svg></div>
+                <div style="flex:1"><b style="font-weight:500">Tenis de lona</b><div class="faint" style="font-size:12.5px">Converse · 37 · Rosa · Con detalles · 70% uso</div><div class="mono" style="font-size:13px;margin-top:2px">Pide $70.000</div></div></div>
+              <div class="seg" style="margin-top:12px" data-single><button aria-pressed="false">Aprobar</button><button aria-pressed="true">No apto</button></div>
+              <div class="field" style="margin-top:10px"><label>Motivo que verá el vendedor</label><div class="input select">Suela con desgaste alto</div></div>
+            </div>
+            <button class="btn olive" data-go="recolecciones">Aprobar 2 y enviar a recolección <svg><use href="#i-arrow"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: agendar la recolección</span><button class="btn dark sm" data-go="recolecciones">Ir a E3 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== E3 RECOLECCIONES -->
+<section class="screen" id="recolecciones" data-grp="ops" aria-labelledby="h-recs">
+  <div class="caption">
+    <div><div class="eyebrow">E3 · Backoffice</div><h2 id="h-recs">Agendar recolecciones</h2>
+      <p>Las recolecciones confirmadas por los vendedores se agrupan por zona y día. El equipo asigna mensajero, ordena la ruta y reenvía la notificación a quien no ha confirmado.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com/recolecciones</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span>Resumen</span><span>Postulaciones <b>38</b></span><span aria-current="page">Recolecciones <b>12</b></span><span>Recepción hub <b>21</b></span><span>Pricing <b>17</b></span><span>Contratos <b>9</b></span><span>Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head"><h3>Martes 29 de septiembre</h3>
+          <div class="actions"><div class="seg" data-single><button aria-pressed="true">Ruta norte</button><button aria-pressed="false">Ruta centro</button><button aria-pressed="false">Ruta sur</button></div></div></div>
+        <div class="split" style="grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)">
+          <div class="route" role="img" aria-label="Mapa esquemático de la ruta norte con 5 paradas">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="none"><path d="M70 250 C120 220 110 180 150 170 S230 160 250 120 S300 70 330 60 M150 170 C170 200 210 210 240 200" fill="none" stroke="var(--wine)" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round"/></svg>
+            <div class="pin hub" style="left:17.5%;top:85%"><b><span>H</span></b><small>Hub · Puente Aranda</small></div>
+            <div class="pin" style="left:37.5%;top:58%"><b><span>1</span></b><small>Chapinero</small></div>
+            <div class="pin" style="left:60%;top:68%"><b><span>2</span></b><small>Rosales</small></div>
+            <div class="pin" style="left:62.5%;top:42%"><b><span>3</span></b><small>Chicó Norte</small></div>
+            <div class="pin" style="left:75%;top:28%"><b><span>4</span></b><small>Usaquén</small></div>
+            <div class="pin" style="left:82.5%;top:21%"><b><span>5</span></b><small>Cedritos</small></div>
+          </div>
+          <div class="stack">
+            <div class="card pad" style="padding:16px">
+              <div class="row" style="justify-content:space-between"><div class="row" style="gap:10px"><span class="avatar">JR</span><div><b style="font-weight:500">Jhon Fredy Ríos</b><div class="faint" style="font-size:12.5px">Moto · capacidad 4 bolsas grandes</div></div></div><button class="btn ghost sm">Cambiar</button></div>
+            </div>
+            <div class="card" style="padding:4px 16px">
+              <div class="task"><span class="ic mono" style="background:var(--wine);color:#fff;font-size:12px">1</span><span>Camila Andrea Rueda<span class="sub faint" style="display:block;font-size:12.5px">Cl. 57 # 9-21 · 8:00 a 11:00 · 6 prendas</span></span><span class="status s-ok">Confirmó</span></div>
+              <div class="task"><span class="ic mono" style="background:var(--wine);color:#fff;font-size:12px">2</span><span>Sebastián Arango<span class="sub faint" style="display:block;font-size:12.5px">Cra. 4 # 72-35 · 8:00 a 11:00 · 2 prendas</span></span><span class="status s-ok">Confirmó</span></div>
+              <div class="task"><span class="ic mono" style="background:var(--wine);color:#fff;font-size:12px">3</span><span>Valentina Ospina<span class="sub faint" style="display:block;font-size:12.5px">Cra. 11 # 93-46 · 11:00 a 2:00 · 2 prendas</span></span><span class="status s-ok">Confirmó</span></div>
+              <div class="task"><span class="ic mono" style="background:var(--wine);color:#fff;font-size:12px">4</span><span>Daniela Ferro<span class="sub faint" style="display:block;font-size:12.5px">Cl. 119 # 6-14 · sin franja · 4 prendas</span></span><button class="btn ghost sm">Reenviar aviso</button></div>
+              <div class="task"><span class="ic mono" style="background:var(--wine);color:#fff;font-size:12px">5</span><span>Tomás Villegas<span class="sub faint" style="display:block;font-size:12.5px">Cl. 140 # 15-80 · 2:00 a 5:00 · 3 prendas</span></span><span class="status s-wait">Sin confirmar</span></div>
+            </div>
+            <button class="btn dark" data-go="hub"><svg><use href="#i-truck"/></svg>Enviar ruta al mensajero</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: las prendas llegan al hub</span><button class="btn dark sm" data-go="hub">Ir a E4 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== E4 HUB -->
+<section class="screen" id="hub" data-grp="ops" aria-labelledby="h-hub">
+  <div class="caption">
+    <div><div class="eyebrow">E4 · Backoffice</div><h2 id="h-hub">Recepción y revisión en el hub</h2>
+      <p>Cuando llega un lote se revisa prenda por prenda: que coincida con lo postulado, su estado real y fotos de estudio. El resultado es una calificación A, B, C o "No apto" que alimenta el pricing.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com/hub/CU-2291</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span>Resumen</span><span>Postulaciones <b>38</b></span><span>Recolecciones <b>12</b></span><span aria-current="page">Recepción hub <b>21</b></span><span>Pricing <b>17</b></span><span>Contratos <b>9</b></span><span>Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head"><div><div class="eyebrow">Lote CU-2291 · Valentina Ospina</div><h3>Prenda 2 de 4</h3></div>
+          <div class="actions"><span class="status s-ok">1 revisada</span><span class="status s-new">2 pendientes</span></div></div>
+        <div class="split" style="grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)">
+          <div class="stack">
+            <div class="grid-2" style="gap:10px">
+              <div class="thumb lg c-denim"><svg><use href="#g-pants"/></svg></div>
+              <div class="stack" style="gap:10px">
+                <div class="thumb lg c-denim" style="aspect-ratio:4/2.4;filter:brightness(.88)"><svg><use href="#g-pants"/></svg></div>
+                <div class="thumb lg add" style="aspect-ratio:4/2.4;display:grid;place-items:center"><span><svg width="18" height="18"><use href="#i-upload"/></svg><br>Foto de detalle</span></div>
+              </div>
+            </div>
+            <div class="card pad" style="padding:16px">
+              <div class="eyebrow">Lo que dijo el vendedor</div>
+              <p style="font-size:14px;margin-top:6px"><b style="font-weight:500">Jean recto tiro alto</b> · Levi's 501 · Talla 28 · Azul medio · Como nuevo · 15% uso · Pide <span class="mono">$85.000</span></p>
+            </div>
+            <div class="field"><label for="h-sku">SKU asignado</label><input class="input mono" id="h-sku" value="CU-2291-02 · BOG-A14"></div>
+          </div>
+          <div class="stack">
+            <div class="card" style="padding:4px 18px">
+              <div class="qc"><span>Coincide con la postulación (marca, talla, color)</span><span class="tri" data-single><button class="ok" aria-pressed="true">Sí</button><button class="obs" aria-pressed="false">Parcial</button><button class="bad" aria-pressed="false">No</button></span></div>
+              <div class="qc"><span>Manchas o decoloración</span><span class="tri" data-single><button class="ok" aria-pressed="true">Sin</button><button class="obs" aria-pressed="false">Leve</button><button class="bad" aria-pressed="false">Grave</button></span></div>
+              <div class="qc"><span>Costuras, rotos y ruedo</span><span class="tri" data-single><button class="ok" aria-pressed="false">Bien</button><button class="obs" aria-pressed="true">Detalle</button><button class="bad" aria-pressed="false">Roto</button></span></div>
+              <div class="qc"><span>Cremalleras y botones</span><span class="tri" data-single><button class="ok" aria-pressed="true">Bien</button><button class="obs" aria-pressed="false">Detalle</button><button class="bad" aria-pressed="false">Falla</button></span></div>
+              <div class="qc"><span>Olores</span><span class="tri" data-single><button class="ok" aria-pressed="true">Sin</button><button class="obs" aria-pressed="false">Leve</button><button class="bad" aria-pressed="false">Fuerte</button></span></div>
+              <div class="qc"><span>Autenticidad de la marca</span><span class="tri" data-single><button class="ok" aria-pressed="true">Original</button><button class="obs" aria-pressed="false">Dudosa</button><button class="bad" aria-pressed="false">Réplica</button></span></div>
+            </div>
+            <div class="field"><label for="h-obs">Observación para el vendedor</label><input class="input" id="h-obs" value="Ruedo con desgaste leve en la parte trasera."></div>
+            <div>
+              <div class="eyebrow" style="margin-bottom:8px">Calificación final</div>
+              <div class="grade" data-single>
+                <button aria-pressed="false"><b>A</b>Como nuevo</button>
+                <button aria-pressed="true"><b>B</b>Detalles leves</button>
+                <button aria-pressed="false"><b>C</b>Uso visible</button>
+                <button aria-pressed="false"><b style="color:var(--red)">No apto</b>Devolver</button>
+              </div>
+            </div>
+            <div class="row" style="justify-content:flex-end"><button class="btn ghost">Guardar</button><button class="btn dark" data-go="pricing">Enviar a pricing <svg><use href="#i-arrow"/></svg></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente en el flujo: definir precio</span><button class="btn dark sm" data-go="pricing">Ir a E5 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== E5 PRICING -->
+<section class="screen" id="pricing" data-grp="ops" aria-labelledby="h-pr">
+  <div class="caption">
+    <div><div class="eyebrow">E5 · Backoffice</div><h2 id="h-pr">Pricing y contraoferta</h2>
+      <p>La herramienta cruza el valor pedido por el vendedor con ventas de prendas similares, la marca y la calificación del hub, y sugiere un precio de venta. El equipo ajusta y envía la contraoferta.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com/pricing/CU-2291-02</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span>Resumen</span><span>Postulaciones <b>38</b></span><span>Recolecciones <b>12</b></span><span>Recepción hub <b>21</b></span><span aria-current="page">Pricing <b>17</b></span><span>Contratos <b>9</b></span><span>Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head"><div class="prodcell"><div class="thumb md c-denim"><svg><use href="#g-pants"/></svg></div><div><div class="eyebrow">CU-2291-02</div><h3>Jean recto tiro alto · Levi's 501</h3><div class="faint" style="font-size:13px">Talla 28 · Calificación B · Detalle en ruedo</div></div></div></div>
+        <div class="split" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)">
+          <div class="stack">
+            <div class="card pad">
+              <div class="section-title"><h4>Rango de mercado</h4><span class="faint" style="font-size:12.5px">Precio de venta en tienda</span></div>
+              <div class="range" role="img" aria-label="Rango de mercado entre 105.000 y 150.000; sugerido 120.000; lo pedido equivale a 141.700">
+                <div class="bar"></div>
+                <div class="band" style="left:25%;width:37.5%"></div>
+                <div class="mk sug" style="left:37.5%">Sugerido $120.000<i></i></div>
+                <div class="mk ask" style="left:55.6%;top:0">Pedido $141.700<i></i></div>
+                <div class="ticks"><span>$75k</span><span>$105k</span><span>$135k</span><span>$165k</span><span>$195k</span></div>
+              </div>
+              <p class="faint" style="font-size:12.5px;margin-top:10px">"Pedido" es lo que costaría en tienda para que el vendedor reciba los $85.000 que pidió.</p>
+            </div>
+            <div class="card pad">
+              <div class="section-title"><h4>Comparables vendidos</h4><span class="faint" style="font-size:12.5px">Levi's · jean · últimos 90 días</span></div>
+              <div class="comp"><div class="thumb c-denim"><svg><use href="#g-pants"/></svg></div><span>501 original · talla 30 · A<span class="sub faint" style="display:block;font-size:12px">Vendido en 4 días</span></span><span class="mono">$138.000</span></div>
+              <div class="comp"><div class="thumb c-denim" style="filter:brightness(.8)"><svg><use href="#g-pants"/></svg></div><span>Ribcage tiro alto · 27 · B<span class="sub faint" style="display:block;font-size:12px">Vendido en 11 días</span></span><span class="mono">$118.000</span></div>
+              <div class="comp"><div class="thumb c-denim" style="filter:brightness(1.15)"><svg><use href="#g-pants"/></svg></div><span>501 · talla 28 · B<span class="sub faint" style="display:block;font-size:12px">Vendido en 23 días, con ajuste de 15%</span></span><span class="mono">$112.000</span></div>
+              <div class="comp"><div class="thumb c-ink"><svg><use href="#g-pants"/></svg></div><span>Mom jean · 28 · C<span class="sub faint" style="display:block;font-size:12px">Sin vender en 60 días</span></span><span class="mono">$129.000</span></div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="card pad curve" style="background:var(--surface)">
+              <div class="eyebrow">Contraoferta</div>
+              <div class="field" style="margin-top:12px"><label for="pr-pv">Precio de venta en tienda</label><input class="input mono" id="pr-pv" value="$ 120.000" style="font-size:20px;font-weight:500"></div>
+              <dl class="kv" style="margin-top:14px">
+                <dt>Comisión ClosetUp · 40%</dt><dd class="mono">$48.000</dd>
+                <dt>El vendedor recibe</dt><dd class="mono" style="font-weight:600">$72.000</dd>
+                <dt>El vendedor pidió</dt><dd class="mono faint">$85.000</dd>
+                <dt>Diferencia</dt><dd class="mono" style="color:var(--red)">−15,3%</dd>
+              </dl>
+              <div class="divider" style="margin:14px 0"></div>
+              <div class="field"><label for="pr-msg">Mensaje al vendedor</label><textarea class="input" id="pr-msg">Tu jean está en muy buen estado, pero el ruedo tiene desgaste leve. Levi's similares se venden en promedio a $124.000.</textarea></div>
+            </div>
+            <div class="note good"><svg><use href="#i-check"/></svg><span>Dentro del rango de mercado. Tiempo estimado de venta: 9 a 14 días.</span></div>
+            <button class="btn primary" data-go="oferta">Enviar contraoferta al vendedor</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">El vendedor responde en V8 y firma en V9</span><div class="row"><button class="btn ghost sm" data-go="oferta">Ver V8</button><button class="btn dark sm" data-go="contratos">Ir a E6 <svg><use href="#i-arrow"/></svg></button></div></div>
+</section>
+
+<!-- ===================================================== E6 CONTRATOS -->
+<section class="screen" id="contratos" data-grp="ops" aria-labelledby="h-cts">
+  <div class="caption">
+    <div><div class="eyebrow">E6 · Backoffice</div><h2 id="h-cts">Contratos</h2>
+      <p>Estado de cada contrato de consignación. Al quedar firmado, las prendas se pueden publicar. Los que llevan días sin firmar se recuerdan con un clic.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com/contratos</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span>Resumen</span><span>Postulaciones <b>38</b></span><span>Recolecciones <b>12</b></span><span>Recepción hub <b>21</b></span><span>Pricing <b>17</b></span><span aria-current="page">Contratos <b>9</b></span><span>Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head"><h3>Contratos de consignación</h3>
+          <div class="actions"><div class="seg" data-single><button aria-pressed="true">Todos</button><button aria-pressed="false">Por firmar · 9</button><button aria-pressed="false">Firmados</button><button aria-pressed="false">Por vencer</button></div></div></div>
+        <div class="kpis">
+          <div class="kpi"><div class="eyebrow">Por firmar</div><div class="v">9</div><div class="d">3 con más de 5 días</div></div>
+          <div class="kpi"><div class="eyebrow">Firmados esta semana</div><div class="v">46</div><div class="d"><b>+12</b> vs. semana pasada</div></div>
+          <div class="kpi"><div class="eyebrow">Vencen en 15 días</div><div class="v">31</div><div class="d">Proponer ajuste o devolución</div></div>
+          <div class="kpi"><div class="eyebrow">Prendas en consignación</div><div class="v">1.847</div><div class="d">de 612 vendedores</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Contrato</th><th>Vendedor</th><th>Prendas</th><th>Valor en tienda</th><th>Enviado</th><th>Estado</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="mono">CU-2291</td><td>Valentina Ospina<span class="sub">Persona natural</span></td><td>3</td><td class="mono">$415.000</td><td class="mono">23 sep</td><td><span class="status s-ok">Firmado</span></td><td><button class="btn olive sm">Publicar</button></td></tr>
+              <tr><td class="mono">CU-2288</td><td>Lirio Estudio S.A.S.<span class="sub">Marca · factura</span></td><td>14</td><td class="mono">$2.386.000</td><td class="mono">22 sep</td><td><span class="status s-wait">Por firmar</span></td><td><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr><td class="mono">CU-2274</td><td>Juliana Betancur<span class="sub">Persona natural</span></td><td>5</td><td class="mono">$684.000</td><td class="mono">17 sep</td><td><span class="status s-no">8 días sin firmar</span></td><td><button class="btn ghost sm">Llamar</button></td></tr>
+              <tr><td class="mono">CU-2270</td><td>Tres Puntadas<span class="sub">Marca · no factura</span></td><td>22</td><td class="mono">$3.107.500</td><td class="mono">16 sep</td><td><span class="status s-ink">Publicado</span></td><td><span class="faint" style="font-size:12.5px">PDF</span></td></tr>
+              <tr><td class="mono">CU-1984</td><td>Natalia Cifuentes<span class="sub">Persona natural</span></td><td>7</td><td class="mono">$912.000</td><td class="mono">28 jun</td><td><span class="status s-wine">Vence 26 sep</span></td><td><button class="btn ghost sm">Proponer ajuste</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Siguiente: ficha del vendedor y liquidación</span><button class="btn dark sm" data-go="vendedores">Ir a E7 <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+<!-- ===================================================== E7 VENDEDOR -->
+<section class="screen" id="vendedores" data-grp="ops" aria-labelledby="h-ven">
+  <div class="caption">
+    <div><div class="eyebrow">E7 · Backoffice</div><h2 id="h-ven">Ficha del vendedor</h2>
+      <p>Todo lo de un vendedor en un solo lugar: datos legales, cuenta bancaria verificada, contacto contable si factura, productos y liquidaciones. Aquí se ve una marca que factura.</p></div>
+    <div class="meta"><span class="chip co"><span class="dot"></span>Equipo ClosetUp</span></div>
+  </div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span class="url">ops.closetup.com/vendedores/lirio-estudio</span></div>
+    <div class="ops">
+      <aside class="ops-side" aria-label="Menú operativo">
+        <div class="brand"><span class="logo" role="img" aria-label="ClosetUp"></span><small>Ops</small></div>
+        <span>Resumen</span><span>Postulaciones <b>38</b></span><span>Recolecciones <b>12</b></span><span>Recepción hub <b>21</b></span><span>Pricing <b>17</b></span><span>Contratos <b>9</b></span><span aria-current="page">Vendedores</span><span>Liquidaciones</span>
+        <div class="foot">Hub principal · Bogotá<br>Laura Méndez · Operaciones</div>
+      </aside>
+      <div class="ops-main">
+        <div class="ops-head">
+          <div class="row" style="gap:14px"><span class="avatar" style="width:48px;height:48px;font-size:16px;background:var(--olive);color:#fff">LI</span><div><h3>Lirio Estudio S.A.S.</h3><div class="faint" style="font-size:13px">Marca local · Medellín · vendedora desde marzo 2025</div></div></div>
+          <div class="actions"><span class="status s-ok">Datos verificados</span><span class="status s-wine">Factura</span></div>
+        </div>
+        <div class="grid-3" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);margin-bottom:16px">
+          <div class="card pad" style="padding:18px">
+            <div class="eyebrow">Datos legales</div>
+            <dl class="kv" style="margin-top:12px;font-size:13.5px"><dt>NIT</dt><dd class="mono">901.487.263-4</dd><dt>Régimen</dt><dd>Resp. de IVA</dd><dt>Rep. legal</dt><dd>Mariana Quintero</dd><dt>RUT</dt><dd><span class="status s-ok">Vigente</span></dd></dl>
+          </div>
+          <div class="card pad" style="padding:18px">
+            <div class="eyebrow">Cuenta bancaria</div>
+            <dl class="kv" style="margin-top:12px;font-size:13.5px"><dt>Banco</dt><dd>Banco de Bogotá</dd><dt>Tipo</dt><dd>Corriente</dd><dt>Número</dt><dd class="mono">···271-6</dd><dt>Certificación</dt><dd><span class="status s-wait">Pendiente</span></dd></dl>
+          </div>
+          <div class="card pad" style="padding:18px">
+            <div class="eyebrow">Equipo contable</div>
+            <dl class="kv" style="margin-top:12px;font-size:13.5px"><dt>Contacto</dt><dd>Andrés F. Cardona</dd><dt>Correo</dt><dd style="word-break:break-all">contabilidad@lirioestudio.co</dd><dt>Teléfono</dt><dd class="mono">604 448 2731</dd><dt>Prefijo</dt><dd class="mono">LIR</dd></dl>
+          </div>
+        </div>
+        <div class="section-title"><h4>Liquidaciones</h4><button class="btn ghost sm">Exportar</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Corte</th><th>Prendas vendidas</th><th>Ventas</th><th>Comisión 40%</th><th>A pagar</th><th>Factura de la marca</th><th>Pago</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">30 sep 2026</td><td>11</td><td class="mono">$1.742.000</td><td class="mono faint">$696.800</td><td class="mono" style="font-weight:500">$1.045.200</td><td><span class="status s-wait">Solicitada</span></td><td><span class="status s-new">Programado</span></td></tr>
+              <tr><td class="mono">15 sep 2026</td><td>8</td><td class="mono">$1.186.000</td><td class="mono faint">$474.400</td><td class="mono" style="font-weight:500">$711.600</td><td><span class="status s-ok">LIR-0412</span></td><td><span class="status s-ink">Pagado</span></td></tr>
+              <tr><td class="mono">30 ago 2026</td><td>14</td><td class="mono">$2.058.500</td><td class="mono faint">$823.400</td><td class="mono" style="font-weight:500">$1.235.100</td><td><span class="status s-ok">LIR-0398</span></td><td><span class="status s-ink">Pagado</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note warn" style="margin-top:14px"><svg><use href="#i-info"/></svg><span>El pago del 30 sep queda retenido hasta recibir la factura electrónica y la certificación bancaria.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-next"><span class="hint">Fin del recorrido del equipo</span><button class="btn dark sm" data-go="flujo">Volver al mapa <svg><use href="#i-arrow"/></svg></button></div>
+</section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('#rail a'));
+  var ids = screens.map(function(s){return s.id});
+
+  function show(id, push){
+    if(ids.indexOf(id) < 0) id = 'flujo';
+    screens.forEach(function(s){ s.classList.toggle('on', s.id === id) });
+    links.forEach(function(a){
+      if(a.getAttribute('href') === '#'+id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    if(push !== false){ try{ history.replaceState(null,'','#'+id) }catch(e){ location.hash = id } }
+    window.scrollTo(0,0);
+    var cur = document.querySelector('#rail a[aria-current]');
+    var rail = document.getElementById('rail');
+    if(cur && window.innerWidth <= 900) rail.scrollLeft = cur.offsetLeft - rail.clientWidth/2 + cur.offsetWidth/2;
+  }
+
+  links.forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); show(a.getAttribute('href').slice(1)) });
+  });
+
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-go]');
+    if(t){ e.preventDefault(); show(t.getAttribute('data-go')); return; }
+  });
+
+  // Single-select groups: pills, segments, choice cards, days, grades
+  document.querySelectorAll('[data-single]').forEach(function(g){
+    g.addEventListener('click', function(e){
+      var b = e.target.closest('button');
+      if(!b || !g.contains(b) || b.disabled || b.closest('[data-single]') !== g) return;
+      g.querySelectorAll(':scope > button, :scope > .choice').forEach(function(x){ if(x.closest('[data-single]') === g) x.setAttribute('aria-pressed','false') });
+      b.setAttribute('aria-pressed','true');
+      var next = b.getAttribute('data-go-on');
+      if(next){ document.getElementById('tipo-next').setAttribute('data-go', next) }
+    });
+  });
+  // Plain segmented controls without data-single
+  document.querySelectorAll('.seg:not([data-single])').forEach(function(g){
+    g.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if(!b) return;
+      g.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false') });
+    });
+  });
+
+  // Checkboxes and switches
+  function toggle(el){
+    var on = el.getAttribute('aria-checked') !== 'true';
+    el.setAttribute('aria-checked', on ? 'true' : 'false');
+    if(el.id === 'factura-sw'){ document.getElementById('contable').hidden = !on }
+  }
+  document.querySelectorAll('[role="checkbox"],[role="switch"]').forEach(function(el){
+    el.addEventListener('click', function(e){ e.preventDefault(); toggle(el) });
+    el.addEventListener('keydown', function(e){ if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle(el) } });
+  });
+
+  // Usage slider label
+  var uso = document.getElementById('f-uso');
+  if(uso){ uso.addEventListener('input', function(){ document.getElementById('uso-val').textContent = uso.value + '%' }) }
+
+  // Side filter
+  var sideBtns = document.querySelectorAll('.side-switch button');
+  sideBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var side = b.getAttribute('data-side');
+      sideBtns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false') });
+      document.querySelectorAll('#rail [data-grp]').forEach(function(el){
+        var g = el.getAttribute('data-grp');
+        el.hidden = !(side === 'todo' || g === side || g === 'todo');
+      });
+      show(side === 'vendedor' ? 'vende' : side === 'ops' ? 'resumen' : 'flujo');
+    });
+  });
+
+  window.addEventListener('hashchange', function(){ show(location.hash.slice(1), false) });
+  show((location.hash || '#flujo').slice(1), false);
+})();
+</script>
